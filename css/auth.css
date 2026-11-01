@@ -1,0 +1,386 @@
+/* ==========================================================================
+   Agende-me — Sistema de Login da Manicure & Profissional
+   Design System Tokens, Glassmorphism, Micro-interações e Alta Fidelidade Visual
+   ========================================================================== */
+
+.manicure-login-view {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4, 20px);
+  background: radial-gradient(circle at 15% 15%, #2a104e 0%, #071854 50%, #03081a 100%);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Círculos decorativos de luz ambiente no fundo */
+.manicure-login-view::before {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  top: -100px;
+  right: -100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(67, 24, 84, 0.45), transparent 70%);
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+.manicure-login-view::after {
+  content: '';
+  position: absolute;
+  width: 450px;
+  height: 450px;
+  bottom: -80px;
+  left: -80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(14, 43, 140, 0.4), transparent 70%);
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+/* Card Principal de Login Glassmorphic */
+.login-card-box {
+  width: 100%;
+  max-width: 440px;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 24px;
+  box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.6);
+  padding: 38px 32px;
+  position: relative;
+  z-index: 10;
+  animation: loginFadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+@keyframes loginFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Topo do Card */
+.login-header-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--color-brand-900, #071854), var(--color-brand-700, #431854));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px auto;
+  box-shadow: 0 10px 22px rgba(7, 24, 84, 0.28);
+  color: #ffffff;
+  font-size: 26px;
+}
+
+.login-card-box h2 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--color-brand-900, #071854);
+  text-align: center;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.5px;
+}
+
+.login-card-box .login-subtitle {
+  font-size: 13px;
+  color: var(--color-text-500, #64748b);
+  text-align: center;
+  margin: 0 0 18px 0;
+  line-height: 1.45;
+}
+
+/* Abas de Alternância: Já tenho Acesso vs Criar Acesso Definitivo */
+.login-tabs-nav {
+  display: flex;
+  background-color: var(--color-surface-50, #f1f5f9);
+  padding: 4px;
+  border-radius: var(--radius-full, 9999px);
+  margin-bottom: 20px;
+  gap: 4px;
+  border: 1px solid var(--color-border-100, #e2e8f0);
+}
+
+.login-tab-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: var(--radius-full, 9999px);
+  border: none;
+  background: none;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-500, #64748b);
+  cursor: pointer;
+  transition: all var(--transition-fast, 0.2s);
+}
+
+.login-tab-btn.active {
+  background-color: #ffffff;
+  color: var(--color-brand-900, #071854);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Alerta de Erro */
+.login-error-alert {
+  display: none;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+  padding: 10px 14px;
+  border-radius: var(--radius-md, 8px);
+  font-size: 13px;
+  margin-bottom: 18px;
+  align-items: center;
+  gap: 8px;
+  animation: shakeAlert 0.3s ease;
+}
+
+@keyframes shakeAlert {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* Campos do Formulário com Ícone Integrado */
+.login-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.login-input-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--color-text-500, #94a3b8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.login-form-input {
+  width: 100%;
+  height: 48px;
+  padding: 0 44px 0 42px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--color-text-900, #0f172a);
+  background-color: var(--color-surface-50, #f8fafc);
+  border: 1.5px solid var(--color-border-100, #e2e8f0);
+  border-radius: var(--radius-md, 8px);
+  transition: all var(--transition-fast, 0.2s);
+  box-sizing: border-box;
+}
+
+.login-form-input:focus {
+  outline: none;
+  border-color: var(--color-brand-700, #431854);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(67, 24, 84, 0.12);
+}
+
+.btn-toggle-eye {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--color-text-500, #94a3b8);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  transition: color var(--transition-fast, 0.2s);
+}
+
+.btn-toggle-eye:hover {
+  color: var(--color-text-900, #0f172a);
+}
+
+/* Linha de Opções (Lembrar-me + Esqueceu a Senha) */
+.login-options-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+  font-size: 13px;
+}
+
+.login-remember-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--color-text-700, #334155);
+  cursor: pointer;
+  user-select: none;
+}
+
+.login-remember-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-brand-900, #071854);
+  cursor: pointer;
+}
+
+.login-forgot-link {
+  color: var(--color-brand-700, #431854);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 13px;
+}
+
+.login-forgot-link:hover {
+  text-decoration: underline;
+}
+
+/* Botão Principal de Login */
+.btn-login-submit {
+  width: 100%;
+  height: 50px;
+  background: linear-gradient(135deg, var(--color-brand-900, #071854) 0%, var(--color-brand-700, #431854) 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-md, 8px);
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all var(--transition-fast, 0.2s);
+  box-shadow: 0 4px 14px rgba(7, 24, 84, 0.28);
+}
+
+.btn-login-submit:hover {
+  transform: translateY(-1.5px);
+  box-shadow: 0 8px 20px rgba(7, 24, 84, 0.35);
+  filter: brightness(1.05);
+}
+
+.btn-login-submit:active {
+  transform: translateY(0);
+}
+
+/* Card de Demonstração Rápida (1-Clique) */
+.login-demo-box {
+  margin-top: 24px;
+  padding: 14px 16px;
+  background-color: #f7f6fc;
+  border: 1.5px dashed #cbd5e1;
+  border-radius: var(--radius-md, 8px);
+  text-align: center;
+  transition: border-color var(--transition-fast, 0.2s);
+}
+
+.login-demo-box:hover {
+  border-color: var(--color-brand-700, #431854);
+}
+
+.login-demo-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-brand-900, #071854);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.login-demo-creds {
+  font-size: 12px;
+  color: var(--color-text-700, #334155);
+  margin-bottom: 10px;
+  line-height: 1.35;
+}
+
+.btn-demo-quick {
+  background-color: #ffffff;
+  color: var(--color-brand-900, #071854);
+  border: 1.5px solid var(--color-brand-700, #431854);
+  border-radius: var(--radius-full, 9999px);
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast, 0.2s);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-demo-quick:hover {
+  background-color: var(--color-brand-900, #071854);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* Rodapé de Navegação Pública */
+.login-footer-nav {
+  margin-top: 22px;
+  text-align: center;
+}
+
+.btn-back-to-client-portal {
+  background: none;
+  border: none;
+  color: var(--color-text-500, #64748b);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color var(--transition-fast, 0.2s);
+}
+
+.btn-back-to-client-portal:hover {
+  color: var(--color-brand-900, #071854);
+  text-decoration: underline;
+}
+
+/* Botão de Logout no Topbar do Admin */
+.btn-logout {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 5px 12px;
+  border-radius: var(--radius-full, 9999px);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: all var(--transition-fast, 0.2s);
+}
+
+.btn-logout:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}

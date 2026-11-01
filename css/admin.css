@@ -1,0 +1,2156 @@
+/* ==========================================================================
+   Admin View — Painel de Gestão da Manicure / Pedicure (Agende-me)
+   ========================================================================== */
+
+.admin-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--color-surface-50);
+}
+
+/* ==========================================================================
+   3. Estrutura Desktop: Sidebar (272 px)
+   ========================================================================== */
+.admin-sidebar {
+  width: 272px;
+  min-width: 272px;
+  background-color: var(--color-surface-0);
+  border-right: 1px solid var(--color-border-100);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  z-index: 100;
+  transition: transform var(--transition-normal);
+}
+
+.sidebar-header {
+  padding: var(--space-5) var(--space-5) var(--space-4);
+  border-bottom: 1px solid var(--color-surface-100);
+}
+
+.brand-container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.brand-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--color-brand-900), var(--color-brand-700));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.brand-text h1 {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-brand-900);
+  line-height: 1.2;
+}
+
+.brand-text span {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-500);
+  font-weight: 500;
+}
+
+.sidebar-primary-action {
+  width: 100%;
+}
+
+.sidebar-primary-action .btn-primary {
+  width: 100%;
+  font-size: var(--font-size-md);
+}
+
+/* 4.1 Sidebar / Navegação Lateral */
+.sidebar-nav {
+  padding: var(--space-4) var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: var(--radius-lg);
+  color: var(--color-text-700);
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  position: relative;
+}
+
+.nav-item svg {
+  color: var(--color-text-500);
+  flex-shrink: 0;
+  transition: color var(--transition-fast);
+}
+
+.nav-item:hover {
+  background-color: var(--color-brand-100);
+  color: var(--color-brand-900);
+}
+
+.nav-item:hover svg {
+  color: var(--color-brand-900);
+}
+
+.nav-item.active {
+  background-color: var(--color-surface-100);
+  color: var(--color-brand-900);
+  font-weight: 700;
+}
+
+.nav-item.active svg {
+  color: var(--color-brand-900);
+}
+
+.nav-item .nav-count {
+  margin-left: auto;
+  font-size: var(--font-size-xs);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface-100);
+  color: var(--color-text-700);
+  font-weight: 700;
+}
+
+.nav-item.active .nav-count {
+  background-color: var(--color-brand-900);
+  color: #ffffff;
+}
+
+/* WhatsApp status na base da Sidebar */
+.sidebar-footer {
+  padding: var(--space-4) var(--space-4);
+  border-top: 1px solid var(--color-border-100);
+  background-color: var(--color-surface-50);
+}
+
+.whatsapp-status-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--color-surface-0);
+  padding: var(--space-3) var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-100);
+}
+
+.wa-status-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+.wa-status-info.connected {
+  color: var(--color-success-500);
+}
+
+.wa-status-info.disconnected {
+  color: var(--color-danger-500);
+}
+
+/* ==========================================================================
+   Área Principal e Topbar (72 px)
+   ========================================================================== */
+.admin-main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.admin-topbar {
+  height: 72px;
+  min-height: 72px;
+  background-color: var(--color-brand-900);
+  color: #ffffff;
+  padding: 0 var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 50;
+  box-shadow: var(--shadow-sm);
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.topbar-title-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar-title-section h2 {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.topbar-title-section p {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-500);
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.btn-switch-client {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: all var(--transition-fast);
+}
+
+.btn-switch-client:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.user-profile-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: var(--space-3);
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.profile-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-brand-700);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: var(--font-size-md);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.profile-info .name {
+  font-size: var(--font-size-md);
+  font-weight: 700;
+}
+
+.profile-info .role {
+  font-size: var(--font-size-xs);
+  color: #cbd5e1;
+}
+
+/* ==========================================================================
+   Painel de Conteúdo: Agenda (Mini-calendário 328px + Grade Mensal)
+   ========================================================================== */
+.admin-content-view {
+  flex-grow: 1;
+  overflow-y: auto;
+  display: none;
+  background-color: var(--color-surface-50);
+}
+
+.admin-content-view.active {
+  display: flex;
+}
+
+/* Agenda View Container */
+.agenda-layout-container {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 72px);
+  overflow: hidden;
+}
+
+/* Mini-calendário Panel (328 px) */
+.mini-calendar-panel {
+  width: 328px;
+  min-width: 328px;
+  background-color: var(--color-surface-0);
+  border-right: 1px solid var(--color-border-100);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.mini-cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+}
+
+.mini-cal-title {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-text-900);
+}
+
+.mini-cal-nav {
+  display: flex;
+  gap: 4px;
+}
+
+.mini-cal-nav button {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-700);
+}
+
+.mini-cal-nav button:hover {
+  background-color: var(--color-surface-100);
+}
+
+.mini-cal-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-text-500);
+  margin-bottom: var(--space-2);
+}
+
+.mini-cal-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: var(--space-5);
+}
+
+.mini-cal-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  color: var(--color-text-900);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.mini-cal-day:hover {
+  background-color: var(--color-brand-100);
+}
+
+.mini-cal-day.other-month {
+  color: var(--color-text-500);
+  font-weight: 400;
+}
+
+.mini-cal-day.selected {
+  background-color: var(--color-brand-900) !important;
+  color: #ffffff !important;
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+}
+
+.mini-cal-day.has-events::after {
+  content: '';
+  position: absolute;
+  bottom: 3px;
+  width: 4px;
+  height: 4px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-brand-700);
+}
+
+.mini-cal-day.selected.has-events::after {
+  background-color: #ffffff;
+}
+
+.mini-cal-share-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-brand-900);
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-brand-100);
+  margin-bottom: var(--space-5);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.mini-cal-share-link:hover {
+  background-color: #d5e3ff;
+}
+
+/* Painel de resumo do dia no mini-calendário */
+.selected-day-agenda-box {
+  border-top: 1px solid var(--color-border-100);
+  padding-top: var(--space-4);
+  flex-grow: 1;
+}
+
+.agenda-box-title {
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  color: var(--color-text-900);
+  margin-bottom: var(--space-3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.daily-event-card {
+  background-color: var(--color-surface-50);
+  border: 1px solid var(--color-border-100);
+  border-left: 4px solid var(--color-brand-900);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
+  margin-bottom: var(--space-2);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.daily-event-card:hover {
+  background-color: var(--color-brand-100);
+  border-color: var(--color-brand-700);
+}
+
+.daily-event-time {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: var(--color-brand-900);
+}
+
+.daily-event-client {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text-900);
+}
+
+.daily-event-service {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-700);
+}
+
+/* ==========================================================================
+   Grade Principal do Calendário Mensal
+   ========================================================================== */
+.main-calendar-area {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: var(--color-surface-0);
+}
+
+.main-cal-controls {
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--color-border-100);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--color-surface-0);
+}
+
+.cal-controls-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.month-display-title {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--color-text-900);
+}
+
+.cal-view-modes {
+  display: flex;
+  background-color: var(--color-surface-100);
+  padding: 3px;
+  border-radius: var(--radius-full);
+}
+
+.cal-view-mode-btn {
+  padding: 6px 16px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  color: var(--color-text-700);
+}
+
+.cal-view-mode-btn.active {
+  background-color: var(--color-surface-0);
+  color: var(--color-brand-900);
+  box-shadow: 0 1px 4px rgba(7, 24, 84, 0.1);
+}
+
+/* Grade de 7 Colunas */
+.calendar-grid-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border-bottom: 1px solid var(--color-border-100);
+  background-color: var(--color-surface-50);
+}
+
+.cal-header-day {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: var(--color-text-700);
+  letter-spacing: 0.5px;
+  border-right: 1px solid var(--color-border-100);
+}
+
+.cal-header-day:last-child {
+  border-right: none;
+}
+
+.calendar-grid-body {
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: 1fr;
+  overflow-y: auto;
+}
+
+.calendar-cell {
+  border-right: 1px solid var(--color-border-100);
+  border-bottom: 1px solid var(--color-border-100);
+  padding: var(--space-2) var(--space-2);
+  min-height: 105px;
+  background-color: var(--color-surface-0);
+  display: flex;
+  flex-direction: column;
+  transition: background-color var(--transition-fast);
+  cursor: pointer;
+  position: relative;
+}
+
+.calendar-cell:nth-child(7n) {
+  border-right: none;
+}
+
+.calendar-cell:hover {
+  background-color: var(--color-surface-50);
+}
+
+.calendar-cell.other-month {
+  background-color: #fafbfd;
+  color: var(--color-text-500);
+}
+
+.calendar-cell.today {
+  background-color: rgba(234, 240, 255, 0.4);
+}
+
+.cell-day-number {
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  margin-bottom: 4px;
+}
+
+.calendar-cell.selected .cell-day-number {
+  background-color: var(--color-brand-900);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.cell-events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+/* 4.6 Evento no Calendário */
+.cal-event-pill {
+  background-color: var(--color-event-100);
+  color: var(--color-event-700);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 6px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-left: 2px solid var(--color-brand-700);
+  transition: transform var(--transition-fast);
+}
+
+.cal-event-pill:hover {
+  transform: translateX(1px);
+  filter: brightness(0.96);
+}
+
+.cal-event-pill .pay-status-icon {
+  font-size: 10px;
+}
+
+.cell-more-events {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-brand-700);
+  padding: 2px 4px;
+}
+
+/* ==========================================================================
+   Aba: Meus Serviços (Cadastro & Gestão)
+   ========================================================================== */
+.services-view-container {
+  padding: var(--space-6);
+  max-width: 1300px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.section-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-6);
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.section-title-group h2 {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--color-text-900);
+}
+
+.section-title-group p {
+  font-size: var(--font-size-md);
+  color: var(--color-text-700);
+}
+
+.services-filter-bar {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+  flex-wrap: wrap;
+}
+
+.services-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: var(--space-5);
+}
+
+.service-card {
+  background-color: var(--color-surface-0);
+  border: 1px solid var(--color-border-100);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-normal);
+}
+
+.service-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: #d1d9e4;
+  transform: translateY(-2px);
+}
+
+.service-card-cover {
+  height: 160px;
+  width: 100%;
+  object-fit: cover;
+  background-color: var(--color-surface-100);
+}
+
+.service-card-content {
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.service-badge-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-2);
+}
+
+.service-card-title {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-text-900);
+  margin-bottom: var(--space-2);
+}
+
+.service-card-desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-700);
+  line-height: 1.5;
+  margin-bottom: var(--space-4);
+  flex-grow: 1;
+}
+
+.service-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border-100);
+}
+
+.service-price-block .price {
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  color: var(--color-brand-900);
+}
+
+.service-price-block .duration {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-500);
+  font-weight: 600;
+}
+
+.service-card-actions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.btn-icon-action {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-surface-50);
+  color: var(--color-text-700);
+  border: 1px solid var(--color-border-100);
+  transition: all var(--transition-fast);
+}
+
+.btn-icon-action:hover {
+  background-color: var(--color-brand-100);
+  color: var(--color-brand-900);
+}
+
+.btn-icon-action.delete:hover {
+  background-color: #fde8e8;
+  color: var(--color-danger-500);
+  border-color: #f8b4b4;
+}
+
+/* ==========================================================================
+   Switcher de Exibição dos Cards (Com Foto vs Sem Foto)
+   ========================================================================== */
+.view-mode-switcher-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--color-surface-0);
+  padding: 4px 6px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border-100);
+  box-shadow: var(--shadow-sm);
+}
+
+.switcher-label {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: var(--color-text-700);
+  padding-left: 8px;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.card-display-switcher {
+  display: flex;
+  background-color: var(--color-surface-100);
+  padding: 3px;
+  border-radius: var(--radius-full);
+  gap: 3px;
+}
+
+.btn-display-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  color: var(--color-text-700);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-display-toggle:hover {
+  color: var(--color-brand-900);
+}
+
+.btn-display-toggle.active {
+  background-color: var(--color-brand-900);
+  color: #ffffff;
+  box-shadow: 0 1px 4px rgba(7, 24, 84, 0.15);
+}
+
+/* Modo Compacto Sem Foto para Cards da Manicure */
+.service-card.no-photo {
+  border-top: 4px solid var(--color-brand-700);
+}
+
+.service-card.no-photo .service-card-cover {
+  display: none;
+}
+
+.service-card.no-photo .service-card-content {
+  padding: var(--space-5);
+}
+
+.service-card.no-photo .service-card-title {
+  font-size: var(--font-size-lg);
+  margin-top: 6px;
+}
+
+/* Prévia de Imagem no Modal de CRUD */
+.image-preview-box {
+  width: 100%;
+  height: 140px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1.5px solid var(--color-border-100);
+  background-color: var(--color-surface-50);
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-preview-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ==========================================================================
+   Aba: Clientes & Financeiro
+   ========================================================================== */
+.stats-cards-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.stat-card {
+  background-color: var(--color-surface-0);
+  border: 1px solid var(--color-border-100);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-500);
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+}
+
+.stat-value {
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  color: var(--color-brand-900);
+}
+
+.stat-sub {
+  font-size: var(--font-size-xs);
+  color: var(--color-success-500);
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.data-table-container {
+  background-color: var(--color-surface-0);
+  border: 1px solid var(--color-border-100);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.data-table th {
+  background-color: var(--color-surface-50);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: var(--color-text-700);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--color-border-100);
+}
+
+.data-table td {
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--color-border-100);
+  font-size: var(--font-size-md);
+  color: var(--color-text-900);
+}
+
+.data-table tr:hover {
+  background-color: var(--color-surface-50);
+}
+
+/* ==========================================================================
+   Estilos da Tabela de Clientes & CRUD
+   ========================================================================== */
+.client-info-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.client-avatar-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--color-brand-100), #d8e4fe);
+  color: var(--color-brand-900);
+  font-weight: 700;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #cadbfa;
+  flex-shrink: 0;
+}
+
+.client-name-text {
+  font-weight: 700;
+  color: var(--color-text-900);
+  line-height: 1.3;
+}
+
+.client-bday-text {
+  font-size: 11px;
+  color: var(--color-text-500);
+  font-weight: 500;
+}
+
+.client-pref-pill {
+  display: inline-block;
+  max-width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+  color: var(--color-text-700);
+  background-color: var(--color-surface-50);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border-100);
+}
+
+.client-table-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.client-table-actions .btn-icon-action.wa {
+  color: #25d366;
+  border-color: #c4f3d4;
+}
+
+.client-table-actions .btn-icon-action.wa:hover {
+  background-color: #eafaf1;
+  color: #178a55;
+}
+
+/* Barra de Busca de Clientes */
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-input-wrapper svg {
+  position: absolute;
+  left: 12px;
+  color: var(--color-text-500);
+  pointer-events: none;
+}
+
+.search-input-wrapper input {
+  padding-left: 36px !important;
+}
+
+/* Responsividade Mobile para Admin */
+@media (max-width: 992px) {
+  .admin-sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .admin-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .mini-calendar-panel {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   Estilos de Bloqueio de Agenda e Dias de Trabalho
+   ========================================================================== */
+.cal-event-pill.blocked {
+  background-color: #fee2e2 !important;
+  color: #991b1b !important;
+  border-left: 2px solid #ef4444 !important;
+}
+
+.daily-event-card.blocked-slot {
+  border-left: 4px solid var(--color-error-base) !important;
+  background-color: #fef2f2 !important;
+}
+
+.daily-event-card.blocked-slot:hover {
+  background-color: #fee2e2 !important;
+}
+
+/* Botões de Dias de Trabalho (Seg a Dom) */
+.workday-checkbox-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.workday-toggle-btn {
+  height: 38px;
+  padding: 0 16px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border-200);
+  background: var(--color-surface-0);
+  color: var(--color-text-700);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.workday-toggle-btn:hover {
+  border-color: var(--color-brand-700);
+  color: var(--color-brand-900);
+}
+
+.workday-toggle-btn.active {
+  background-color: var(--color-brand-900);
+  color: #ffffff;
+  border-color: var(--color-brand-900);
+  box-shadow: 0 2px 4px rgba(7, 24, 84, 0.2);
+}
+
+/* Célula do Calendário Totalmente Bloqueada (Imprevisto) */
+.calendar-cell.day-fully-blocked {
+  background-color: #fef2f2 !important;
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(239, 68, 68, 0.04) 10px, rgba(239, 68, 68, 0.04) 20px) !important;
+  border-color: #fca5a5 !important;
+}
+
+.calendar-cell.day-fully-blocked .cell-day-number {
+  color: #991b1b !important;
+  font-weight: 700;
+}
+
+.cell-full-block-banner {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #f87171;
+  border-radius: var(--radius-sm);
+  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+  margin-bottom: 4px;
+}
+
+.mini-cal-day.blocked-day {
+  background-color: #fee2e2 !important;
+  color: #991b1b !important;
+  text-decoration: line-through;
+  border: 1px solid #fca5a5;
+}
+
+/* ==========================================================================
+   Subtabs de Configurações Expandidas
+   ========================================================================== */
+.settings-subtabs-nav {
+  display: flex;
+  gap: 8px;
+  border-bottom: 2px solid var(--color-border-100);
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.btn-settings-subtab {
+  padding: 10px 18px;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-700);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-settings-subtab:hover {
+  color: var(--color-brand-900);
+  background-color: var(--color-surface-100);
+}
+
+.btn-settings-subtab.active {
+  color: var(--color-brand-900);
+  background-color: var(--color-surface-0);
+  border-bottom: 3px solid var(--color-brand-900);
+  font-weight: 700;
+}
+
+.settings-panel-section {
+  display: none;
+}
+
+.settings-panel-section.active {
+  display: block;
+}
+
+/* Upload de Logomarca */
+.logo-upload-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px;
+  background-color: var(--color-surface-50);
+  border: 1px solid var(--color-border-100);
+  border-radius: var(--radius-md);
+  margin-bottom: 20px;
+}
+
+.logo-preview-box {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-brand-200);
+  overflow: hidden;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.logo-preview-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Checkbox Cards de Formas de Pagamento */
+.payment-methods-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.payment-method-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-border-200);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-0);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-900);
+}
+
+.payment-method-card:hover {
+  border-color: var(--color-brand-700);
+}
+
+.payment-method-card input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+/* Cards de Política de Cobrança / Sinal */
+.policy-radio-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px;
+  border: 1px solid var(--color-border-200);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-0);
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.policy-radio-card:hover {
+  border-color: var(--color-brand-700);
+}
+
+.policy-radio-card.active {
+  border-color: var(--color-brand-900);
+  background-color: var(--color-brand-100);
+}
+
+/* Tabela de Períodos de Férias */
+.vacation-periods-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.vacation-period-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background-color: #fff;
+  border: 1px solid var(--color-border-100);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+}
+
+/* ==========================================================================
+   Alerta Visual e Sonoro de Novo Agendamento
+   ========================================================================== */
+
+/* Botão de Som no Topbar */
+.btn-sound-toggle {
+  height: 38px;
+  padding: 0 12px;
+  background-color: var(--color-surface-0);
+  border: 1px solid var(--color-border-200);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: var(--color-text-700);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-sound-toggle:hover {
+  background-color: var(--color-surface-50);
+  border-color: var(--color-brand-700);
+  color: var(--color-brand-900);
+}
+
+.btn-sound-toggle.muted {
+  opacity: 0.6;
+  text-decoration: line-through;
+  color: var(--color-text-500);
+}
+
+/* Card Flutuante de Alerta de Novo Agendamento (Toast Modal) */
+.new-booking-alert-toast {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 9999;
+  width: 380px;
+  max-width: calc(100vw - 32px);
+  background-color: #ffffff;
+  border: 2px solid var(--color-brand-900);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 16px 40px rgba(7, 24, 84, 0.28), 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  animation: slideInBookingAlert 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: none;
+}
+
+.new-booking-alert-toast.active {
+  display: block;
+}
+
+@keyframes slideInBookingAlert {
+  from {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.alert-toast-header {
+  background: linear-gradient(135deg, var(--color-brand-900), var(--color-brand-700));
+  color: #ffffff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.alert-toast-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.alert-bell-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  animation: ringBell 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes ringBell {
+  0% { transform: rotate(-15deg); }
+  100% { transform: rotate(15deg); }
+}
+
+.alert-toast-title {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.alert-toast-close {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 18px;
+  cursor: pointer;
+  opacity: 0.8;
+  padding: 0 4px;
+}
+
+.alert-toast-close:hover {
+  opacity: 1;
+}
+
+.alert-toast-body {
+  padding: 16px;
+}
+
+.alert-toast-client-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.alert-toast-client-name {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--color-text-900);
+}
+
+.alert-toast-details-box {
+  background-color: var(--color-surface-50);
+  border: 1px solid var(--color-border-100);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  margin-bottom: 14px;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.alert-toast-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ==========================================================================
+   Dropdown de Notificações do Topbar (Sininho)
+   ========================================================================== */
+.notification-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 360px;
+  max-width: calc(100vw - 32px);
+  background-color: #ffffff;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 16px 40px rgba(7, 24, 84, 0.22), 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--color-border-100);
+  z-index: 500;
+  overflow: hidden;
+  animation: dropdownFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.notification-dropdown.open {
+  display: block;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.notif-dropdown-header {
+  padding: 12px 16px;
+  background: linear-gradient(135deg, var(--color-brand-900), var(--color-brand-700));
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.notif-dropdown-header-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.notif-dropdown-badge {
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+.notif-dropdown-clear-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.notif-dropdown-clear-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+.notification-list-body {
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.notif-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-border-100);
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+  text-decoration: none;
+  position: relative;
+}
+
+.notif-item:last-child {
+  border-bottom: none;
+}
+
+.notif-item:hover {
+  background-color: var(--color-surface-50);
+}
+
+.notif-item.unread {
+  background-color: #f7f6fc;
+}
+
+.notif-item.unread::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: var(--color-brand-700);
+}
+
+.notif-icon-box {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  background-color: var(--color-brand-100);
+}
+
+.notif-item.is-booking .notif-icon-box {
+  background-color: #e0f2fe;
+}
+
+.notif-content {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.notif-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
+.notif-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-900);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.notif-time {
+  font-size: 10px;
+  color: var(--color-text-500);
+  flex-shrink: 0;
+}
+
+.notif-text {
+  font-size: 12px;
+  color: var(--color-text-700);
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.notif-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.notif-meta-pill {
+  padding: 2px 7px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-brand-100);
+  color: var(--color-brand-900);
+  font-size: 10px;
+}
+
+.notif-empty-state {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--color-text-500);
+  font-size: 13px;
+}
+
+.notif-empty-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+  opacity: 0.5;
+}
+
+/* Animação do Sino quando há novidades não lidas */
+.notification-trigger.has-unread svg {
+  animation: ringBellSoft 1.8s ease-in-out infinite;
+}
+
+@keyframes ringBellSoft {
+  0% { transform: rotate(0); }
+  10% { transform: rotate(14deg); }
+  20% { transform: rotate(-14deg); }
+  30% { transform: rotate(10deg); }
+  40% { transform: rotate(-10deg); }
+  50% { transform: rotate(0); }
+  100% { transform: rotate(0); }
+}
+
+.notification-badge.pulse {
+  animation: badgePulse 1.8s infinite;
+}
+
+@keyframes badgePulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(224, 36, 36, 0.7); }
+  70% { transform: scale(1.15); box-shadow: 0 0 0 6px rgba(224, 36, 36, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(224, 36, 36, 0); }
+}
+
+/* ==========================================================================
+   Switcher de Bloqueio Individual de Pagamento no Local (Carteira de Clientes)
+   ========================================================================== */
+.toggle-switch-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background-color: var(--color-surface-50);
+  border: 1px solid var(--color-border-100);
+  border-radius: var(--radius-md);
+  margin-top: 16px;
+  gap: 16px;
+  transition: all var(--transition-fast);
+}
+
+.toggle-switch-card.active {
+  background-color: #fef2f2;
+  border-color: #fca5a5;
+}
+
+.toggle-switch-info {
+  flex-grow: 1;
+}
+
+.toggle-switch-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-900);
+}
+
+.toggle-switch-card.active .toggle-switch-title {
+  color: #991b1b;
+}
+
+.toggle-switch-desc {
+  font-size: 12px;
+  color: var(--color-text-500);
+  margin-top: 3px;
+  line-height: 1.4;
+}
+
+.toggle-switch-card.active .toggle-switch-desc {
+  color: #7f1d1d;
+}
+
+.switch-control {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 26px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.switch-control input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #cbd5e1;
+  border-radius: 26px;
+  transition: all 0.25s ease;
+}
+
+.switch-slider::before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.switch-control input:checked + .switch-slider {
+  background-color: #dc2626; /* Vermelho forte de bloqueio / anti-falta */
+}
+
+.switch-control input:focus + .switch-slider {
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2);
+}
+
+.switch-control input:checked + .switch-slider::before {
+  transform: translateX(22px);
+}
+
+/* Badge no Cliente da Tabela de Clientes */
+.badge-blocked-local {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: var(--radius-sm);
+  background-color: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+  font-size: 11px;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+/* --- VISÃO SEMANAL (WEEK VIEW) --- */
+.cal-week-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  flex-grow: 1;
+  border-top: 1px solid var(--color-border-100);
+  min-height: 480px;
+  background: var(--color-surface-0);
+  overflow-y: auto;
+}
+
+.cal-week-col {
+  border-right: 1px solid var(--color-border-100);
+  display: flex;
+  flex-direction: column;
+  min-width: 120px;
+  background: var(--color-surface-0);
+  transition: background-color var(--transition-fast);
+}
+
+.cal-week-col:last-child {
+  border-right: none;
+}
+
+.cal-week-col.today {
+  background-color: rgba(234, 240, 255, 0.25);
+}
+
+.cal-week-col.selected {
+  background-color: rgba(67, 24, 84, 0.02);
+}
+
+.cal-week-col-header {
+  padding: 8px 6px;
+  text-align: center;
+  border-bottom: 1px solid var(--color-border-100);
+  background: var(--color-surface-50);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.cal-week-day-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-text-500);
+  letter-spacing: 0.5px;
+}
+
+.cal-week-day-num {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--color-text-900);
+  width: 30px;
+  height: 30px;
+  margin: 3px auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.cal-week-col.today .cal-week-day-num {
+  background: var(--color-brand-700);
+  color: #fff;
+}
+
+.cal-week-col-body {
+  padding: 8px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-grow: 1;
+}
+
+.week-event-card {
+  background: var(--color-surface-50);
+  border: 1px solid var(--color-border-200);
+  border-left: 3.5px solid var(--color-brand-700);
+  border-radius: var(--radius-sm);
+  padding: 8px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+
+.week-event-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(7, 24, 84, 0.08);
+  border-color: var(--color-brand-700);
+}
+
+.week-event-card.blocked {
+  background: #fef2f2;
+  border-color: #fecaca;
+  border-left-color: var(--color-error-base);
+}
+
+/* --- VISÃO DIÁRIA (DAY VIEW) --- */
+.cal-day-view-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  background: var(--color-surface-0);
+  overflow-y: auto;
+}
+
+.cal-day-header-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--color-border-100);
+  background: var(--color-surface-50);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.cal-day-timeline {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 18px;
+}
+
+.cal-timeline-slot {
+  display: grid;
+  grid-template-columns: 75px 1fr;
+  min-height: 54px;
+  border-bottom: 1px dashed var(--color-border-100);
+  align-items: stretch;
+}
+
+.cal-timeline-time {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-500);
+  padding-top: 8px;
+}
+
+.cal-timeline-content {
+  padding: 6px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cal-day-booking-card {
+  background: #ffffff;
+  border: 1.5px solid var(--color-border-200);
+  border-left: 4.5px solid var(--color-brand-700);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  box-shadow: 0 2px 6px rgba(7, 24, 84, 0.04);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.cal-day-booking-card:hover {
+  box-shadow: 0 4px 12px rgba(7, 24, 84, 0.08);
+  border-color: var(--color-brand-700);
+}
+
+.cal-day-free-slot {
+  font-size: 12px;
+  color: var(--color-text-400);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px dashed transparent;
+  transition: all var(--transition-fast);
+}
+
+.cal-day-free-slot:hover {
+  background: var(--color-surface-50);
+  border-color: var(--color-border-200);
+  color: var(--color-text-700);
+}
+
+/* --- VISÃO EM LISTA (AGENDA VIEW) --- */
+.cal-list-view-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  background: var(--color-surface-0);
+  overflow-y: auto;
+  padding: 16px 20px;
+  gap: 18px;
+}
+
+.cal-list-date-group {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-border-100);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.cal-list-date-header {
+  background: var(--color-surface-100);
+  padding: 10px 16px;
+  font-weight: 700;
+  font-size: 13.5px;
+  color: var(--color-brand-900);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--color-border-100);
+}
+
+.cal-list-item-row {
+  display: grid;
+  grid-template-columns: 80px 1.5fr 2fr 110px 110px 110px;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-border-100);
+  font-size: 13px;
+  transition: background-color var(--transition-fast);
+  cursor: pointer;
+  gap: 12px;
+}
+
+.cal-list-item-row:last-child {
+  border-bottom: none;
+}
+
+.cal-list-item-row:hover {
+  background: var(--color-surface-50);
+}
+
+/* Gerenciador de Categorias (CRUD) */
+.category-manager-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: var(--color-surface-50);
+  border: 1px solid var(--color-border-100);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.category-manager-item:hover {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 2px 6px rgba(7, 24, 84, 0.05);
+}
+
+/* ==========================================================================
+   Botões Premium: Dar Baixa no Pagamento & Status Pago
+   ========================================================================== */
+.btn-dar-baixa {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 13px;
+  font-family: var(--font-family-sans, 'Inter', sans-serif);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #20b873 0%, #16a34a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--radius-full, 9999px);
+  box-shadow: 0 2px 6px rgba(32, 184, 115, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+}
+
+.btn-dar-baixa svg {
+  stroke-width: 2.8;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.12));
+  transition: transform 0.2s ease;
+}
+
+.btn-dar-baixa:hover {
+  background: linear-gradient(135deg, #18a263 0%, #15803d 100%);
+  box-shadow: 0 4px 12px rgba(32, 184, 115, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transform: translateY(-1.5px);
+}
+
+.btn-dar-baixa:hover svg {
+  transform: scale(1.15);
+}
+
+.btn-dar-baixa:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 1px 3px rgba(32, 184, 115, 0.3);
+}
+
+.btn-pago-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 28px;
+  padding: 0 11px;
+  font-family: var(--font-family-sans, 'Inter', sans-serif);
+  font-size: 11px;
+  font-weight: 700;
+  color: #15803d;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: var(--radius-full, 9999px);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.btn-pago-pill:hover {
+  background: #dcfce7;
+  border-color: #86efac;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(22, 163, 74, 0.15);
+}
+
+.btn-dar-baixa-modal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 18px;
+  font-family: var(--font-family-sans, 'Inter', sans-serif);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #20b873 0%, #16a34a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--radius-md, 12px);
+  box-shadow: 0 3px 8px rgba(32, 184, 115, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-dar-baixa-modal:hover {
+  background: linear-gradient(135deg, #18a263 0%, #15803d 100%);
+  box-shadow: 0 6px 16px rgba(32, 184, 115, 0.45);
+  transform: translateY(-1.5px);
+}
+
+.btn-dar-baixa-modal:active {
+  transform: translateY(0) scale(0.98);
+}
+
+
+
+
+

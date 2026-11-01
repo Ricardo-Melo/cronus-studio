@@ -1,0 +1,23 @@
+{
+  "name": "cronus-manicure-pedicure",
+  "version": "1.0.0",
+  "description": "Sistema web profissional para manicure e pedicure com cadastro de serviços, agendamento online e pagamento integrado Pix e Cartão.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "seed:turso": "node scripts/seed-turso.js"
+  },
+  "keywords": [
+    "manicure",
+    "pedicure",
+    "agendamento",
+    "pix",
+    "pagamento-online",
+    "design-system"
+  ],
+  "author": "Cronus",
+  "license": "MIT",
+  "dependencies": {
+    "@libsql/client": "^0.18.0"
+  }
+}

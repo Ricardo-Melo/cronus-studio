@@ -1,0 +1,892 @@
+/* ==========================================================================
+   Booking View — Portal do Cliente: Agendamento & Pagamento Online
+   ========================================================================== */
+
+.booking-view-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-surface-50);
+}
+
+/* 4.4 Topbar de Progresso */
+.booking-topbar {
+  background-color: var(--color-brand-900);
+  padding: var(--space-4) var(--space-6);
+  color: #ffffff;
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.booking-topbar-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.booking-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  cursor: pointer;
+}
+
+.booking-logo-badge {
+  width: 38px;
+  height: 38px;
+  background-color: var(--color-brand-800);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.booking-logo-text h1 {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.booking-logo-text p {
+  font-size: var(--font-size-xs);
+  color: #cbd5e1;
+}
+
+.btn-back-admin {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all var(--transition-fast);
+}
+
+.btn-back-admin:hover {
+  background-color: rgba(255, 255, 255, 0.22);
+}
+
+/* Barra de Etapas Conectadas (4.4 do Design System) */
+.booking-steps-nav {
+  background-color: var(--color-surface-0);
+  border-bottom: 1px solid var(--color-border-100);
+  padding: var(--space-4) var(--space-6);
+}
+
+.steps-track {
+  max-width: 820px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  z-index: 2;
+  position: relative;
+}
+
+.step-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  background-color: var(--color-surface-0);
+  color: var(--color-text-500);
+  border: 2px solid var(--color-border-100);
+  transition: all var(--transition-normal);
+}
+
+.step-item.active .step-circle {
+  background-color: var(--color-brand-900);
+  border-color: var(--color-brand-900);
+  color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(7, 24, 84, 0.15);
+}
+
+.step-item.completed .step-circle {
+  background-color: var(--color-success-500);
+  border-color: var(--color-success-500);
+  color: #ffffff;
+}
+
+.step-label {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-text-500);
+  transition: color var(--transition-fast);
+}
+
+.step-item.active .step-label {
+  color: var(--color-brand-900);
+  font-weight: 700;
+}
+
+.step-item.completed .step-label {
+  color: var(--color-text-900);
+}
+
+.steps-line-connector {
+  position: absolute;
+  top: 18px;
+  left: 30px;
+  right: 30px;
+  height: 2px;
+  background-color: var(--color-border-100);
+  z-index: 1;
+}
+
+.steps-line-progress {
+  height: 100%;
+  background-color: var(--color-success-500);
+  width: 0%;
+  transition: width var(--transition-smooth);
+}
+
+/* Conteúdo Principal do Agendamento */
+.booking-content-area {
+  max-width: 940px;
+  margin: var(--space-6) auto;
+  padding: 0 var(--space-5) 100px;
+  width: 100%;
+}
+
+.booking-step-panel {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.booking-step-panel.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.step-heading {
+  margin-bottom: var(--space-5);
+  text-align: center;
+}
+
+.step-heading h2 {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--color-text-900);
+  margin-bottom: 6px;
+}
+
+.step-heading p {
+  font-size: var(--font-size-md);
+  color: var(--color-text-700);
+}
+
+/* ==========================================================================
+   Etapa 1: Escolha de Serviços
+   ========================================================================== */
+.client-services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.client-service-card {
+  background-color: var(--color-surface-0);
+  border: 2px solid var(--color-border-100);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-normal);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.client-service-card:hover {
+  border-color: var(--color-brand-700);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.client-service-card.selected {
+  border-color: var(--color-brand-900);
+  background-color: #fafcff;
+  box-shadow: 0 0 0 3px rgba(7, 24, 84, 0.12);
+}
+
+.client-service-img {
+  height: 140px;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Modo Sem Foto para o Card do Cliente */
+.client-service-card.no-photo {
+  border-top: 4px solid var(--color-brand-900);
+}
+
+.client-service-card.no-photo .client-service-img {
+  display: none;
+}
+
+.client-service-card.no-photo .client-service-body {
+  padding: var(--space-5);
+}
+
+.client-service-body {
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.client-service-title {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-text-900);
+  margin-bottom: 4px;
+}
+
+.client-service-desc {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-700);
+  line-height: 1.4;
+  margin-bottom: var(--space-3);
+  flex-grow: 1;
+}
+
+.client-service-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border-100);
+}
+
+.client-service-price {
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+  color: var(--color-brand-900);
+}
+
+.client-service-duration {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-500);
+  font-weight: 600;
+}
+
+.btn-select-service {
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  background-color: var(--color-surface-100);
+  color: var(--color-brand-900);
+  transition: all var(--transition-fast);
+}
+
+.client-service-card.selected .btn-select-service {
+  background-color: var(--color-brand-900);
+  color: #ffffff;
+}
+
+/* Barra Flutuante de Resumo e Avanço */
+.booking-bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--color-surface-0);
+  border-top: 1px solid var(--color-border-100);
+  box-shadow: 0 -4px 16px rgba(7, 24, 84, 0.08);
+  padding: var(--space-4) var(--space-6);
+  z-index: 90;
+}
+
+.booking-bottom-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: nowrap !important;
+}
+
+.summary-details {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  flex-wrap: nowrap !important;
+  white-space: nowrap;
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+}
+
+.summary-item .label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-500);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.summary-item .value {
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+  color: var(--color-brand-900);
+  white-space: nowrap;
+}
+
+.footer-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.booking-bottom-bar button,
+.booking-bottom-bar .btn-primary,
+.booking-bottom-bar .btn-secondary {
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+
+/* ==========================================================================
+   Etapa 2: Seleção de Data e Horários
+   ========================================================================== */
+.datetime-selection-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+}
+
+.date-picker-box, .time-slots-box {
+  background-color: var(--color-surface-0);
+  border: 1px solid var(--color-border-100);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+}
+
+.box-header-title {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-text-900);
+  margin-bottom: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  max-height: 340px;
+  overflow-y: auto;
+  padding: 8px 6px 12px 6px; /* Margem interna para evitar corte de borda e sombra no hover/seleção */
+  scroll-behavior: smooth;
+}
+
+.slot-btn,
+.time-slot-btn {
+  height: 44px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-50);
+  border: 1.5px solid var(--color-border-100);
+  color: var(--color-text-900);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+.slot-btn:hover:not(:disabled),
+.time-slot-btn:hover:not(:disabled) {
+  border-color: var(--color-brand-700);
+  background-color: #eef2fa;
+  color: var(--color-brand-900);
+  box-shadow: 0 2px 8px rgba(7, 24, 84, 0.15);
+}
+
+.slot-btn.selected,
+.time-slot-btn.selected {
+  background-color: var(--color-brand-900) !important;
+  border-color: var(--color-brand-900) !important;
+  color: #ffffff !important;
+  box-shadow: 0 3px 10px rgba(7, 24, 84, 0.35) !important;
+  font-weight: 800 !important;
+}
+
+.slot-btn:disabled,
+.time-slot-btn:disabled {
+  opacity: 0.35;
+  background-color: #f1f3f7;
+  color: var(--color-text-500);
+  cursor: not-allowed;
+  text-decoration: line-through;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Etapa 3: Dados Pessoais do Cliente
+   ========================================================================== */
+.client-form-container {
+  max-width: 620px;
+  margin: 0 auto;
+  background-color: var(--color-surface-0);
+  border: 1px solid var(--color-border-100);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ==========================================================================
+   Etapa 4: Pagamento Online (Pix & Cartão de Crédito)
+   ========================================================================== */
+.payment-flow-container {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.payment-methods-tabs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+}
+
+.payment-tab-btn {
+  height: 52px;
+  padding: 0 10px;
+  background-color: var(--color-surface-0);
+  border: 2px solid var(--color-border-100);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text-700);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.payment-tab-btn:hover {
+  border-color: #cbd5e1;
+}
+
+.payment-tab-btn.active {
+  border-color: var(--color-brand-900);
+  background-color: #f6f8fd;
+  color: var(--color-brand-900);
+  box-shadow: 0 0 0 3px rgba(7, 24, 84, 0.1);
+}
+
+/* Caixa de Sinal de Reserva (Anti-Falta) */
+.deposit-summary-box {
+  background: linear-gradient(135deg, #f0f7ff, #e6f0fa);
+  border: 1px solid #bae0ff;
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+  margin-bottom: 20px;
+}
+
+.deposit-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #0050b3;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  margin-bottom: 8px;
+}
+
+.deposit-desc {
+  font-size: 13px;
+  color: var(--color-text-700);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.deposit-values-row {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  gap: 10px;
+  background-color: #ffffff;
+  border: 1px solid #d6e4ff;
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  text-align: center;
+}
+
+.deposit-lbl {
+  display: block;
+  font-size: 11px;
+  color: var(--color-text-500);
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.deposit-val {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-900);
+}
+
+.deposit-val-highlight {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0958d9;
+}
+
+/* Cartão de Débito Container */
+.debit-card-preview {
+  width: 320px;
+  height: 180px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, #0d3b66, #0077b6);
+  color: #ffffff;
+  padding: var(--space-5);
+  margin: 0 auto var(--space-5);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.debit-card-preview::after {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+}
+
+/* Pagar no Local Container */
+.local-payment-box {
+  text-align: center;
+  padding: 24px 16px;
+}
+
+.local-payment-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #f0fdf4;
+  color: #16a34a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  margin: 0 auto 16px;
+  border: 2px solid #bbf7d0;
+}
+
+.payment-panel {
+  background-color: var(--color-surface-0);
+  border: 1px solid var(--color-border-100);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  display: none;
+}
+
+.payment-panel.active {
+  display: block;
+}
+
+/* Pix Container */
+.pix-qr-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.pix-qr-box {
+  width: 220px;
+  height: 220px;
+  padding: 12px;
+  background-color: #ffffff;
+  border: 2px dashed var(--color-brand-700);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-4);
+  box-shadow: var(--shadow-sm);
+}
+
+.pix-copia-cola-box {
+  width: 100%;
+  margin-bottom: var(--space-5);
+}
+
+.pix-input-group {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.pix-input-group input {
+  font-family: monospace;
+  font-size: var(--font-size-sm);
+  background-color: var(--color-surface-50);
+}
+
+.pix-timer-alert {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #fef8eb;
+  color: #b07e15;
+  border: 1px solid #f9e2ab;
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  margin-bottom: var(--space-5);
+}
+
+.pix-simulate-btn {
+  background: linear-gradient(135deg, #18985c, #20b873);
+  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(32, 184, 115, 0.3);
+  transition: all var(--transition-fast);
+}
+
+.pix-simulate-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(32, 184, 115, 0.4);
+}
+
+/* Cartão de Crédito Container */
+.credit-card-preview {
+  width: 320px;
+  height: 180px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--color-brand-900), var(--color-brand-700));
+  color: #ffffff;
+  padding: var(--space-5);
+  margin: 0 auto var(--space-5);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--shadow-md);
+}
+
+.cc-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cc-chip {
+  width: 40px;
+  height: 30px;
+  background: linear-gradient(135deg, #e6c875, #cba239);
+  border-radius: 4px;
+}
+
+.cc-number {
+  font-family: monospace;
+  font-size: 18px;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.cc-bottom-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   Etapa 5: Confirmação & Voucher Digital
+   ========================================================================== */
+.confirmation-card {
+  max-width: 640px;
+  margin: 0 auto;
+  background-color: var(--color-surface-0);
+  border: 1px solid var(--color-border-100);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8) var(--space-6);
+  text-align: center;
+  box-shadow: var(--shadow-md);
+}
+
+.success-check-badge {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-full);
+  background-color: #eafaf1;
+  color: var(--color-success-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-4);
+  font-size: 36px;
+  border: 2px solid #a3e9c4;
+}
+
+.confirmation-card h2 {
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  color: var(--color-brand-900);
+  margin-bottom: var(--space-2);
+}
+
+.confirmation-voucher {
+  background-color: var(--color-surface-50);
+  border: 1px dashed var(--color-border-100);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  margin: var(--space-5) 0;
+  text-align: left;
+}
+
+.voucher-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--color-border-100);
+  font-size: var(--font-size-sm);
+}
+
+.voucher-row:last-child {
+  border-bottom: none;
+}
+
+.voucher-row .v-label {
+  color: var(--color-text-500);
+  font-weight: 600;
+}
+
+.voucher-row .v-value {
+  color: var(--color-text-900);
+  font-weight: 700;
+}
+
+.confirmation-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.btn-whatsapp-confirm {
+  background-color: #25d366;
+  color: #ffffff;
+  height: 48px;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: var(--font-size-md);
+  transition: all var(--transition-fast);
+}
+
+.btn-whatsapp-confirm:hover {
+  background-color: #1ebd5b;
+}
+
+@media (max-width: 768px) {
+  .datetime-selection-grid {
+    grid-template-columns: 1fr;
+  }
+  .steps-track {
+    padding: 0 var(--space-2);
+  }
+  .step-label {
+    display: none;
+  }
+  .booking-bottom-bar {
+    padding: var(--space-3) var(--space-4);
+  }
+  .booking-bottom-inner {
+    flex-wrap: nowrap !important;
+    gap: 8px;
+    justify-content: space-between;
+  }
+  .summary-details {
+    gap: 10px;
+    flex-wrap: nowrap !important;
+    white-space: nowrap !important;
+    overflow: hidden;
+  }
+  .summary-item .value {
+    font-size: 13.5px;
+  }
+  .summary-item #summaryTotalPrice {
+    font-size: 16px !important;
+  }
+  .footer-actions-group button, #btnFooterBack {
+    height: 40px !important;
+    padding: 0 14px !important;
+    font-size: 13px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+}
+
+@keyframes pulseReady {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(7, 24, 84, 0.4); }
+  50% { transform: scale(1.02); box-shadow: 0 0 0 8px rgba(7, 24, 84, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(7, 24, 84, 0); }
+}
+
+.pulse-ready {
+  animation: pulseReady 1.5s infinite;
+}

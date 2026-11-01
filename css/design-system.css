@@ -1,0 +1,543 @@
+/* ==========================================================================
+   Design System — Agende-me
+   Tokens e Estilos Base conforme especificações do Design System
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* 2.1 Cores */
+  --color-brand-900: #071854;
+  --color-brand-800: #10286f;
+  --color-brand-700: #1f3d91;
+  --color-brand-100: #eaf0ff;
+  --color-text-900: #1a1736;
+  --color-text-700: #46536c;
+  --color-text-500: #9199ae;
+  --color-surface-0: #ffffff;
+  --color-surface-50: #f9fafb;
+  --color-surface-100: #f0f2f6;
+  --color-border-100: #e6ebf1;
+  --color-event-100: #f0eef7;
+  --color-event-700: #431854;
+  --color-success-500: #20b873;
+  --color-warning-500: #e8b83d;
+  --color-danger-500: #d94848;
+
+  /* 2.2 Tipografia */
+  --font-family-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 28px;
+
+  /* 2.4 Raios e Elevações */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 999px;
+
+  /* 2.3 Espaçamentos */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Sombras */
+  --shadow-sm: 0 2px 8px rgb(7 24 84 / 8%);
+  --shadow-md: 0 8px 24px rgb(7 24 84 / 14%);
+  --shadow-lg: 0 16px 36px rgb(7 24 84 / 20%);
+
+  /* Transições */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+  --transition-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Reset Global e Normalização */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: var(--font-family-sans);
+  background-color: var(--color-surface-50);
+  color: var(--color-text-900);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  outline: none;
+  transition: all var(--transition-fast);
+}
+
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--color-brand-700);
+  outline-offset: 2px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ==========================================================================
+   Tipografia - Classes de Apoio
+   ========================================================================== */
+.display-sm {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  line-height: 32px;
+  color: var(--color-text-900);
+}
+
+.heading-sm {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  line-height: 24px;
+  color: var(--color-text-900);
+}
+
+.body-md {
+  font-size: var(--font-size-lg);
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.body-md-bold {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.body-sm {
+  font-size: var(--font-size-md);
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.caption {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  line-height: 16px;
+}
+
+.overline {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  line-height: 14px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   Botões do Design System
+   ========================================================================== */
+/* 4.2 Botão Primário */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  height: 44px;
+  min-height: 44px;
+  padding: 0 var(--space-5);
+  background-color: var(--color-brand-900);
+  color: #ffffff;
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-brand-800);
+}
+
+.btn-primary:active {
+  background-color: var(--color-brand-700);
+  transform: scale(0.98);
+}
+
+.btn-primary:disabled {
+  background-color: #cbd2df;
+  color: #ffffff;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 4.3 Botão Suave / Pill */
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  height: 38px;
+  min-height: 38px;
+  padding: 0 var(--space-4);
+  background-color: var(--color-surface-0);
+  color: var(--color-text-900);
+  border: 1px solid var(--color-border-100);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+
+.btn-pill:hover {
+  background-color: var(--color-surface-100);
+  border-color: #d7dfea;
+}
+
+.btn-pill:active {
+  background-color: var(--color-brand-100);
+}
+
+.btn-pill.active {
+  background-color: var(--color-brand-900);
+  color: #ffffff;
+  border-color: var(--color-brand-900);
+}
+
+/* Botão Secundário / Contorno */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  height: 44px;
+  padding: 0 var(--space-4);
+  background-color: var(--color-surface-0);
+  color: var(--color-brand-900);
+  border: 1.5px solid var(--color-border-100);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-brand-100);
+  border-color: var(--color-brand-700);
+}
+
+/* Botão de Divulgar / Ação Especial na Topbar */
+.btn-topbar-action {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: 36px;
+  padding: 0 var(--space-4);
+  background-color: var(--color-brand-100);
+  color: var(--color-brand-900);
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
+}
+
+.btn-topbar-action:hover {
+  background-color: #d5e3ff;
+  transform: translateY(-1px);
+}
+
+/* 4.7 FAB - Floating Action Button */
+.btn-fab {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-brand-900);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+  z-index: 90;
+  transition: transform var(--transition-fast), background-color var(--transition-fast);
+}
+
+.btn-fab:hover {
+  background-color: var(--color-brand-800);
+  transform: scale(1.06);
+}
+
+.btn-fab:active {
+  transform: scale(0.96);
+}
+
+/* ==========================================================================
+   Badges e Indicadores de Estado
+   ========================================================================== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.badge-success {
+  background-color: #eafaf1;
+  color: #178a55;
+  border: 1px solid #c2ecd5;
+}
+
+.badge-warning {
+  background-color: #fef8eb;
+  color: #b07e15;
+  border: 1px solid #f9e2ab;
+}
+
+.badge-danger {
+  background-color: #fdf0f0;
+  color: var(--color-danger-500);
+  border: 1px solid #f8c9c9;
+}
+
+.badge-brand {
+  background-color: var(--color-brand-100);
+  color: var(--color-brand-900);
+}
+
+.badge-event {
+  background-color: var(--color-event-100);
+  color: var(--color-event-700);
+}
+
+/* Indicador de Status Dot */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  display: inline-block;
+}
+
+.status-dot.connected {
+  background-color: var(--color-success-500);
+  box-shadow: 0 0 0 3px rgba(32, 184, 115, 0.2);
+}
+
+.status-dot.disconnected {
+  background-color: var(--color-danger-500);
+  box-shadow: 0 0 0 3px rgba(217, 72, 72, 0.2);
+}
+
+/* 4.8 Notificação com badge circular */
+.notification-trigger {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  transition: background-color var(--transition-fast);
+}
+
+.notification-trigger:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.notification-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  background-color: var(--color-danger-500);
+  color: #ffffff;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--color-brand-900);
+}
+
+/* ==========================================================================
+   Modais, Drawers e Diálogos
+   ========================================================================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(7, 24, 84, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-normal);
+}
+
+.modal-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  background-color: var(--color-surface-0);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 540px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border: 1px solid var(--color-border-100);
+  transform: translateY(12px) scale(0.98);
+  transition: transform var(--transition-smooth);
+}
+
+.modal-backdrop.open .modal-content {
+  transform: translateY(0) scale(1);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid var(--color-border-100);
+}
+
+.modal-body {
+  padding: var(--space-6);
+}
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--color-border-100);
+  background-color: var(--color-surface-50);
+  border-bottom-left-radius: var(--radius-lg);
+  border-bottom-right-radius: var(--radius-lg);
+}
+
+/* ==========================================================================
+   Controles de Formulário e Inputs
+   ========================================================================== */
+.form-group {
+  margin-bottom: var(--space-4);
+}
+
+.form-label {
+  display: block;
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  color: var(--color-text-900);
+  margin-bottom: var(--space-2);
+}
+
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  height: 44px;
+  padding: 0 var(--space-4);
+  background-color: var(--color-surface-0);
+  border: 1.5px solid var(--color-border-100);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-md);
+  color: var(--color-text-900);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.form-textarea {
+  height: auto;
+  min-height: 80px;
+  padding: var(--space-3) var(--space-4);
+  resize: vertical;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--color-brand-700);
+  box-shadow: 0 0 0 3px rgba(31, 61, 145, 0.12);
+  outline: none;
+}
+
+.form-input::placeholder, .form-textarea::placeholder {
+  color: var(--color-text-500);
+}
+
+/* ==========================================================================
+   Toast / Notificações Flutuantes
+   ========================================================================== */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  background-color: var(--color-brand-900);
+  color: #ffffff;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-md);
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: auto;
+}
+
+.toast.toast-success {
+  background-color: #127947;
+}
+
+.toast.toast-danger {
+  background-color: var(--color-danger-500);
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}

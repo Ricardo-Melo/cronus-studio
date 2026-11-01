@@ -1,0 +1,2023 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#071854">
+  <meta name="description" content="Cronus — Sistema profissional para manicure e pedicure gerenciar seus serviços, receber agendamentos online e pagamentos via Pix e Cartão de forma integrada.">
+  <title>Cronus • Studio Bela Unha | Gestão e Agendamento Online</title>
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Estilos do Design System -->
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <link rel="stylesheet" href="css/booking.css">
+  <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+
+  <!-- ========================================================================
+       1. PAINEL DE GESTÃO DA MANICURE (ADMIN)
+       ======================================================================== -->
+  <div id="adminLayoutView" class="admin-layout">
+
+    <!-- 4.1 Sidebar Lateral (272 px) -->
+    <aside class="admin-sidebar" aria-label="Navegação Principal">
+      <div class="sidebar-header">
+        <div class="brand-container">
+          <div class="brand-icon" id="sidebarBrandIcon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+            </svg>
+          </div>
+          <div class="brand-text">
+            <h1 id="sidebarBrandTitle">Cronus</h1>
+            <span id="sidebarBrandSubtitle">Studio Nails e Care</span>
+          </div>
+        </div>
+
+        <div class="sidebar-primary-action">
+          <!-- 4.2 Botão Primário "Adicionar" -->
+          <button id="btnSidebarAdd" class="btn-primary" onclick="window.adminManager.openManualBookingModal()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span>Adicionar</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Itens de Navegação com estados -->
+      <nav class="sidebar-nav">
+        <div class="nav-item active" data-tab="agenda" id="navItemAgenda">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          <span>Agenda</span>
+        </div>
+
+        <div class="nav-item" data-tab="services" id="navItemServices">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+          <span>Meus Serviços</span>
+          <span class="nav-count" id="navServicesCount">8</span>
+        </div>
+
+        <div class="nav-item" data-tab="clients" id="navItemClients">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <span>Clientes</span>
+          <span class="nav-count" id="navClientsCount">5</span>
+        </div>
+
+        <div class="nav-item" data-tab="financial" id="navItemFinancial">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+          <span>Financeiro</span>
+        </div>
+
+        <div class="nav-item" data-tab="settings" id="navItemSettings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span>Configurações</span>
+        </div>
+      </nav>
+
+      <!-- Rodapé da Sidebar: WhatsApp Conectado e SQLite -->
+      <div class="sidebar-footer">
+        <div class="whatsapp-status-card">
+          <div class="wa-status-info connected" id="sidebarWhatsappInfo">
+            <span class="status-dot connected" id="sidebarWhatsappDot"></span>
+            <span id="sidebarWhatsappText">Conectado</span>
+          </div>
+          <button class="btn-pill" style="height: 28px; padding: 0 10px; font-size: 11px;" onclick="window.app.toggleWhatsappConnection()">
+            Alternar
+          </button>
+        </div>
+        <div style="margin-top: 8px; padding: 6px 10px; background: rgba(7, 24, 84, 0.05); border: 1px solid var(--color-border-100); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: space-between; font-size: 11px; color: var(--color-text-700);">
+          <span style="display: flex; align-items: center; gap: 5px; font-weight: 600;">
+            <span style="width: 7px; height: 7px; border-radius: 50%; background: var(--color-success-base); display: inline-block;"></span>
+            <span>SQLite Ativo</span>
+          </span>
+          <span style="font-weight: 700; color: var(--color-brand-700); font-family: monospace; font-size: 9.5px;">database.sqlite</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Área Principal de Conteúdo -->
+    <main class="admin-main">
+      <!-- Topbar Superior (72 px) -->
+      <header class="admin-topbar">
+        <div class="topbar-left">
+          <button id="mobileSidebarToggle" style="display:none; color:#ffffff; font-size:24px;" aria-label="Abrir menu">☰</button>
+          <div class="topbar-title-section">
+            <h2>Painel da Profissional</h2>
+            <p>Gerencie seus horários, clientes e serviços</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Botão "Divulgar" Pill do Design System -->
+          <button id="btnDivulgar" class="btn-topbar-action" title="Copiar link de agendamento">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+            <span>Divulgar</span>
+          </button>
+
+          <!-- Botão de Alerta Sonoro -->
+          <button id="btnSoundToggle" class="btn-sound-toggle" type="button" onclick="window.soundAlertManager.toggleSound()" title="Clique para ativar/desativar o alerta sonoro de novos agendamentos">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+            <span>Som Ativo</span>
+          </button>
+
+          <!-- 4.8 Notificação com badge circular e dropdown moderno -->
+          <div style="position:relative;">
+            <button class="notification-trigger" id="notificationTrigger" aria-label="Notificações" title="Ver notificações">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              <span class="notification-badge" id="notificationBadge">1</span>
+            </button>
+
+            <!-- Dropdown de Notificações -->
+            <div id="notificationDropdown" class="notification-dropdown">
+              <div class="notif-dropdown-header">
+                <div class="notif-dropdown-header-title">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                  <span>Notificações</span>
+                  <span class="notif-dropdown-badge" id="notifDropdownBadge">1 nova</span>
+                </div>
+                <button type="button" class="notif-dropdown-clear-btn" onclick="window.app.markAllNotificationsAsRead()">
+                  Marcar como lidas
+                </button>
+              </div>
+              <div id="notificationList" class="notification-list-body"></div>
+            </div>
+          </div>
+
+          <!-- Botão Switcher: Ver como Cliente -->
+          <button id="btnSwitchToClient" class="btn-switch-client">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            <span>Visão do Cliente (Agendar)</span>
+          </button>
+
+          <!-- Perfil da Manicure com Botão de Sair -->
+          <div class="user-profile-badge">
+            <div class="profile-avatar">BS</div>
+            <div class="profile-info">
+              <span class="name" id="topbarManicureName">Bela Souza</span>
+              <span class="role">Nail Designer</span>
+            </div>
+            <button type="button" class="btn-logout" id="btnAdminLogout" onclick="window.authManager.logout()" title="Bloquear painel e encerrar sessão">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+              <span>Sair</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- ABA 1: AGENDA (Mini-calendário 328px + Grade Mensal) -->
+      <section id="viewTab-agenda" class="admin-content-view active">
+        <div class="agenda-layout-container">
+          
+          <!-- Painel do Mini-calendário (328 px) -->
+          <div class="mini-calendar-panel">
+            <div class="mini-cal-header">
+              <span class="mini-cal-title">Outubro 2026</span>
+              <div class="mini-cal-nav">
+                <button onclick="window.calendarEngine.prevMonth()" aria-label="Mês anterior">‹</button>
+                <button onclick="window.calendarEngine.nextMonth()" aria-label="Próximo mês">›</button>
+              </div>
+            </div>
+
+            <div class="mini-cal-weekdays">
+              <span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span>
+            </div>
+
+            <div class="mini-cal-days">
+              <!-- Dias populados dinamicamente via JS -->
+            </div>
+
+            <!-- 4.5 Link inferior "Compartilhar agenda" -->
+            <button class="mini-cal-share-link" id="btnShareAgenda">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+              <span>Compartilhar agenda</span>
+            </button>
+
+            <!-- Resumo dos atendimentos do dia selecionado -->
+            <div class="selected-day-agenda-box">
+              <!-- Populado dinamicamente -->
+            </div>
+          </div>
+
+          <!-- Grade Principal do Calendário Mensal -->
+          <div class="main-calendar-area">
+            <div class="main-cal-controls">
+              <div class="cal-controls-left">
+                <span class="month-display-title">Outubro de 2026</span>
+                <!-- 4.3 Botão de Ação Suave "Hoje" -->
+                <button class="btn-pill" onclick="window.calendarEngine.goToToday()">Hoje</button>
+                <div style="display:flex; gap:4px;">
+                  <button class="btn-pill" style="width:36px; padding:0;" onclick="window.calendarEngine.prev()" aria-label="Anterior">‹</button>
+                  <button class="btn-pill" style="width:36px; padding:0;" onclick="window.calendarEngine.next()" aria-label="Próximo">›</button>
+                </div>
+                <button type="button" class="btn-pill" style="color:var(--color-error-base); border-color:var(--color-error-base); font-weight:600; display:inline-flex; align-items:center; gap:6px;" onclick="window.adminManager.openBlockSlotModal(null, true)" title="Bloquear uma data inteira por imprevisto ou folga">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+                  <span>Bloquear Data</span>
+                </button>
+              </div>
+
+              <div class="cal-view-modes" id="calViewModesContainer">
+                <button type="button" class="cal-view-mode-btn active" id="btnCalModeMonth" onclick="window.calendarEngine.setViewMode('month')">Mês</button>
+                <button type="button" class="cal-view-mode-btn" id="btnCalModeWeek" onclick="window.calendarEngine.setViewMode('week')">Semana</button>
+                <button type="button" class="cal-view-mode-btn" id="btnCalModeDay" onclick="window.calendarEngine.setViewMode('day')">Dia</button>
+                <button type="button" class="cal-view-mode-btn" id="btnCalModeList" onclick="window.calendarEngine.setViewMode('list')">Lista</button>
+              </div>
+            </div>
+
+            <!-- 1. Visualização Mensal (Mês) -->
+            <div id="calContainerMonth" style="display:flex; flex-direction:column; flex-grow:1; overflow:hidden;">
+              <div class="calendar-grid-header">
+                <div class="cal-header-day">DOM</div>
+                <div class="cal-header-day">SEG</div>
+                <div class="cal-header-day">TER</div>
+                <div class="cal-header-day">QUA</div>
+                <div class="cal-header-day">QUI</div>
+                <div class="cal-header-day">SEX</div>
+                <div class="cal-header-day">SÁB</div>
+              </div>
+
+              <div class="calendar-grid-body">
+                <!-- Grade de 7 colunas gerada via calendar.js -->
+              </div>
+            </div>
+
+            <!-- 2. Visualização Semanal (Semana) -->
+            <div id="calContainerWeek" style="display:none; flex-direction:column; flex-grow:1; overflow:hidden;">
+              <div class="cal-week-grid" id="calWeekGrid">
+                <!-- 7 colunas da semana geradas via calendar.js -->
+              </div>
+            </div>
+
+            <!-- 3. Visualização Diária (Dia) -->
+            <div id="calContainerDay" style="display:none; flex-direction:column; flex-grow:1; overflow:hidden;">
+              <div class="cal-day-view-container" id="calDayContainer">
+                <!-- Linha do tempo hora por hora gerada via calendar.js -->
+              </div>
+            </div>
+
+            <!-- 4. Visualização em Lista (Lista / Agenda) -->
+            <div id="calContainerList" style="display:none; flex-direction:column; flex-grow:1; overflow:hidden;">
+              <div class="cal-list-view-container" id="calListContainer">
+                <!-- Lista cronológica de agendamentos gerada via calendar.js -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ABA 2: MEUS SERVIÇOS (CADASTRO E EDIÇÃO) -->
+      <section id="viewTab-services" class="admin-content-view">
+        <div class="services-view-container">
+          <div class="section-top-bar">
+            <div class="section-title-group">
+              <h2>Catálogo de Serviços</h2>
+              <p>Cadastre, edite valores, duração e fotos dos seus procedimentos de manicure e pedicure.</p>
+            </div>
+            
+            <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+              <!-- Switcher: Exibir Card com Foto ou Não -->
+              <div class="view-mode-switcher-container" title="Escolha se os cards de serviço exibem fotos ou visual compacto">
+                <span class="switcher-label">Exibir nos cards:</span>
+                <div class="card-display-switcher">
+                  <button type="button" id="btnCardModePhoto" class="btn-display-toggle active" onclick="window.adminManager.setCardPhotoDisplay(true)">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    <span>Com Fotos</span>
+                  </button>
+                  <button type="button" id="btnCardModeCompact" class="btn-display-toggle" onclick="window.adminManager.setCardPhotoDisplay(false)">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                    <span>Sem Fotos</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Botões de Ação de Serviços -->
+              <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                <button type="button" class="btn-secondary" onclick="window.adminManager.openCategoriesModal()" style="display:inline-flex; align-items:center; gap:6px;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 6h16M4 12h16M4 18h7"></path></svg>
+                  <span>Gerenciar Categorias</span>
+                </button>
+                <button class="btn-primary" onclick="window.adminManager.openServiceModal()">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  <span>Novo Serviço</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filtro de categorias dinâmico -->
+          <div class="services-filter-bar" id="adminCategoryFiltersBar">
+            <!-- Populado dinamicamente via admin.js -->
+          </div>
+
+          <!-- Grid de Cards de Serviços -->
+          <div id="adminServicesGrid" class="services-cards-grid">
+            <!-- Populado via admin.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ABA 3: FINANCEIRO -->
+      <section id="viewTab-financial" class="admin-content-view">
+        <div class="services-view-container">
+          <div class="section-top-bar" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+            <div class="section-title-group">
+              <h2>Controle Financeiro</h2>
+              <p>Acompanhe o faturamento de agendamentos pagos via Pix e Cartão.</p>
+            </div>
+
+            <!-- Seletor de Mês e Período -->
+            <div style="display:flex; align-items:center; gap:8px; background:#fff; padding:6px 12px; border:1px solid var(--color-border-200); border-radius:var(--radius-md); box-shadow:0 1px 3px rgba(0,0,0,0.04);">
+              <button type="button" class="btn-icon-subtle" onclick="window.adminManager && window.adminManager.changeFinancialMonth(-1)" title="Mês Anterior" style="border:none; background:transparent; cursor:pointer; padding:6px; display:flex; align-items:center; border-radius:4px; color:var(--color-text-700);">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              </button>
+              
+              <div style="display:flex; align-items:center; gap:6px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--color-brand-700); flex-shrink:0;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                <select id="financialMonthSelect" class="form-select" onchange="window.adminManager && window.adminManager.onFinancialMonthSelectChange(this.value)" style="border:none; font-weight:700; font-size:14px; color:var(--color-brand-900); padding:4px 8px; cursor:pointer; background:transparent; outline:none;">
+                  <!-- Populado dinamicamente -->
+                </select>
+              </div>
+
+              <button type="button" class="btn-icon-subtle" onclick="window.adminManager && window.adminManager.changeFinancialMonth(1)" title="Próximo Mês" style="border:none; background:transparent; cursor:pointer; padding:6px; display:flex; align-items:center; border-radius:4px; color:var(--color-text-700);">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </button>
+
+              <button type="button" class="btn-pill" onclick="window.adminManager && window.adminManager.resetFinancialToCurrentMonth()" style="padding:4px 10px; font-size:12px; margin-left:4px;" title="Ir para o mês atual">
+                Mês Atual
+              </button>
+            </div>
+          </div>
+
+          <!-- Métricas principais -->
+          <div class="stats-cards-row">
+            <div class="stat-card">
+              <div class="stat-label" id="statMonthRevenueLabel">Faturamento do Mês</div>
+              <div class="stat-value" id="statMonthRevenue">R$ 0,00</div>
+              <div class="stat-sub" id="statMonthRevenueSub">↑ Recebimentos confirmados</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Faturamento Hoje</div>
+              <div class="stat-value" id="statTodayRevenue">R$ 0,00</div>
+              <div class="stat-sub">Entradas confirmadas</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label" id="statTotalBookingsLabel">Agendamentos no Mês</div>
+              <div class="stat-value" id="statTotalBookings">0</div>
+              <div class="stat-sub" id="statTotalBookingsSub">Clientes atendidas</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Ticket Médio</div>
+              <div class="stat-value" id="statAverageTicket">R$ 0,00</div>
+              <div class="stat-sub">Por cliente</div>
+            </div>
+          </div>
+
+          <!-- Tabela de Transações com Busca e Filtros -->
+          <div class="data-table-container">
+            <div style="padding:16px 20px; border-bottom:1px solid var(--color-border-100); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-weight:700; color:var(--color-brand-900); font-size:15px;">Histórico de Pagamentos</span>
+                <span id="financialRecordsCount" class="badge badge-brand" style="font-size:11px;">0 registros</span>
+              </div>
+
+              <!-- Filtro de Busca e Método -->
+              <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                <div class="search-input-wrapper" style="position:relative; width:260px;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--color-text-400); pointer-events:none;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                  <input type="text" id="financialSearchInput" class="form-input" placeholder="Buscar cliente, serviço, cód..." oninput="window.adminManager && window.adminManager.onFinancialSearch(this.value)" style="padding-left:34px; padding-right:28px; font-size:13px; height:38px;">
+                  <button type="button" id="btnFinancialClearSearch" onclick="window.adminManager && window.adminManager.clearFinancialSearch()" style="display:none; position:absolute; right:8px; top:50%; transform:translateY(-50%); border:none; background:transparent; color:var(--color-text-400); cursor:pointer; font-size:16px; line-height:1; padding:2px;" title="Limpar busca">✕</button>
+                </div>
+
+                <select id="financialMethodFilter" class="form-select" onchange="window.adminManager && window.adminManager.onFinancialMethodFilterChange(this.value)" style="font-size:13px; height:38px; width:160px; cursor:pointer;">
+                  <option value="all">Todos os Métodos</option>
+                  <option value="PIX">Pix Online</option>
+                  <option value="CARTAO">Cartão</option>
+                  <option value="PAGAR_NO_LOCAL">No Studio</option>
+                </select>
+              </div>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Cliente</th>
+                  <th>Serviço(s)</th>
+                  <th>Data e Horário</th>
+                  <th>Status / Método</th>
+                  <th>Valor</th>
+                  <th style="text-align:right;">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="financialTransactionsBody">
+                <!-- Populado via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABA 4: CLIENTES (CARTEIRA E CLIENTES) -->
+      <section id="viewTab-clients" class="admin-content-view">
+        <div class="services-view-container">
+          <div class="section-top-bar">
+            <div class="section-title-group">
+              <h2>Carteira de Clientes</h2>
+              <p>Histórico completo de atendimentos, preferências e contatos das suas clientes.</p>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+              <!-- Campo de Busca em Tempo Real -->
+              <div class="search-input-wrapper">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="clientSearchInput" class="form-input" placeholder="Buscar cliente por nome ou WhatsApp..." style="width:280px; height:44px;" oninput="window.adminManager.filterClients(this.value)">
+              </div>
+
+              <!-- Botão Primário "Nova Cliente" -->
+              <button class="btn-primary" onclick="window.adminManager.openClientModal()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span>Nova Cliente</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="data-table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Cliente</th>
+                  <th>WhatsApp</th>
+                  <th>E-mail</th>
+                  <th>Agendamentos</th>
+                  <th>Total Investido</th>
+                  <th style="text-align:right;">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="clientsTableBody">
+                <!-- Populado via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABA 5: CONFIGURAÇÕES -->
+      <section id="viewTab-settings" class="admin-content-view">
+        <div class="services-view-container" style="max-width: 860px;">
+          <div class="section-top-bar" style="margin-bottom: 16px;">
+            <div class="section-title-group">
+              <h2>Configurações do Studio</h2>
+              <p>Gerencie sua marca, regras de agendamento, formas de pagamento e períodos de recesso.</p>
+            </div>
+          </div>
+
+          <!-- Navegação das 4 Subtabs -->
+          <div class="settings-subtabs-nav">
+            <button type="button" class="btn-settings-subtab active" id="tabNavStudio" onclick="window.adminManager.switchSettingsSubtab('studio')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              <span>Studio e Logo</span>
+            </button>
+            <button type="button" class="btn-settings-subtab" id="tabNavAgenda" onclick="window.adminManager.switchSettingsSubtab('agenda')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <span>Agenda e Bloqueios</span>
+            </button>
+            <button type="button" class="btn-settings-subtab" id="tabNavPayments" onclick="window.adminManager.switchSettingsSubtab('payments')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+              <span>Pagamentos e Sinal</span>
+            </button>
+            <button type="button" class="btn-settings-subtab" id="tabNavRules" onclick="window.adminManager.switchSettingsSubtab('rules')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              <span>Regras e Políticas</span>
+            </button>
+          </div>
+
+          <form id="settingsForm" onsubmit="event.preventDefault(); window.adminManager.saveSettings();">
+
+            <!-- SUBTAB 1: STUDIO E LOGO -->
+            <div id="subtabSection-studio" class="settings-panel-section active">
+              <!-- Upload de Logomarca -->
+              <div class="logo-upload-wrapper">
+                <div class="logo-preview-box">
+                  <img id="settingLogoPreview" src="assets/manicure.jpg" alt="Logomarca do Studio">
+                </div>
+                <div style="flex-grow:1;">
+                  <strong style="font-size:14px; color:var(--color-text-900); display:block; margin-bottom:4px;">Logomarca ou Foto do Studio</strong>
+                  <p style="font-size:12px; color:var(--color-text-500); margin-bottom:10px;">Esta imagem aparece no topo da página de agendamento do cliente e nos comprovantes.</p>
+                  <div style="display:flex; gap:8px; align-items:center;">
+                    <label class="btn-pill" style="cursor:pointer; height:34px; font-size:12px; display:inline-flex; align-items:center; gap:6px;">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                      <span>Escolher Imagem</span>
+                      <input type="file" id="settingLogoInput" accept="image/*" style="display:none;" onchange="window.adminManager.handleLogoUpload(event)">
+                    </label>
+                    <button type="button" class="btn-pill" style="height:34px; font-size:12px; color:var(--color-text-500);" onclick="window.adminManager.resetLogo()">
+                      Restaurar Padrão
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Nome do Espaço / Studio *</label>
+                <input type="text" id="settingStudioName" class="form-input" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Nome da Manicure / Nail Designer *</label>
+                <input type="text" id="settingManicureName" class="form-input" required>
+              </div>
+
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+                <div class="form-group">
+                  <label class="form-label">WhatsApp com DDD *</label>
+                  <input type="text" id="settingWhatsapp" class="form-input" placeholder="11987654321" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Instagram do Studio</label>
+                  <input type="text" id="settingInstagram" class="form-input" placeholder="@seustudio">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Endereço Completo do Studio *</label>
+                <input type="text" id="settingAddress" class="form-input" required>
+              </div>
+
+              <!-- Modalidade de Atendimento: Studio, Casa da Cliente ou Ambos -->
+              <div class="form-group" style="background:var(--color-surface-50); border:1px solid var(--color-border-100); border-radius:var(--radius-md); padding:16px; margin-top:16px;">
+                <div style="margin-bottom:12px;">
+                  <strong style="font-size:14px; color:var(--color-text-900); display:flex; align-items:center; gap:6px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    <span>Modalidade e Local de Atendimento</span>
+                  </strong>
+                  <p style="font-size:12px; color:var(--color-text-500); margin:4px 0 0 0;">
+                    Defina se seus atendimentos acontecem no seu Studio, na Casa da Cliente (Domicílio) ou se a cliente pode escolher entre os dois.
+                  </p>
+                </div>
+
+                <div style="display:grid; grid-template-columns: 1.5fr 1fr; gap:16px;">
+                  <div class="form-group" style="margin-bottom:0;">
+                    <label class="form-label" for="settingServiceLocationMode">Onde você atende? *</label>
+                    <select id="settingServiceLocationMode" class="form-select" onchange="window.adminManager && window.adminManager.handleLocationModeSettingChange(this.value)">
+                      <option value="studio">Apenas no Studio (Presencial)</option>
+                      <option value="home">Apenas na Casa da Cliente (Domicílio)</option>
+                      <option value="both" selected>Ambos (Studio e Casa da Cliente - Cliente escolhe)</option>
+                    </select>
+                  </div>
+                  <div class="form-group" style="margin-bottom:0;" id="settingHomeFeeGroup">
+                    <label class="form-label" for="settingHomeServiceFee">Taxa de Deslocamento (R$)</label>
+                    <input type="number" id="settingHomeServiceFee" class="form-input" placeholder="0.00" min="0" step="1" value="0">
+                  </div>
+                </div>
+                <div id="settingLocationTip" style="font-size:11px; color:var(--color-brand-700); font-weight:600; margin-top:10px; display:flex; align-items:center; gap:6px;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                  <span>Quando o atendimento for na casa da cliente, o sistema solicita o endereço completo dela durante o agendamento.</span>
+                </div>
+              </div>
+
+              <!-- Acesso e Senha do Painel (Login Definitivo) -->
+              <div class="form-group" style="background:var(--color-surface-50); border:1px solid var(--color-border-100); border-radius:var(--radius-md); padding:16px; margin-top:20px;">
+                <div style="margin-bottom:12px;">
+                  <strong style="font-size:14px; color:var(--color-text-900); display:flex; align-items:center; gap:6px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    <span>Dados de Acesso ao Painel (Login e Senha Definitivos)</span>
+                  </strong>
+                  <p style="font-size:12px; color:var(--color-text-500); margin:4px 0 0 0;">
+                    Defina aqui o seu e-mail próprio e sua senha pessoal para bloquear o painel contra terceiros e acessar com total segurança.
+                  </p>
+                </div>
+
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+                  <div class="form-group" style="margin-bottom:0;">
+                    <label class="form-label">E-mail de Login Definitivo *</label>
+                    <input type="email" id="settingAdminEmail" class="form-input" placeholder="seuemail@exemplo.com" value="manicure@studio.com" required>
+                  </div>
+                  <div class="form-group" style="margin-bottom:0;">
+                    <label class="form-label">Senha de Acesso Definitiva *</label>
+                    <input type="password" id="settingAdminPassword" class="form-input" placeholder="Digite sua senha segura" value="123456" required>
+                  </div>
+                </div>
+                <div style="font-size:11px; color:var(--color-brand-700); font-weight:600; margin-top:10px;">
+                  ✓ Ao salvar, o sistema memoriza estes dados como seu acesso definitivo. Você também pode entrar informando seu WhatsApp.
+                </div>
+              </div>
+            </div>
+
+            <!-- SUBTAB 2: AGENDA E BLOQUEIOS -->
+            <div id="subtabSection-agenda" class="settings-panel-section">
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+                <div class="form-group">
+                  <label class="form-label">Horário de Início dos Atendimentos</label>
+                  <input type="time" id="settingOpeningTime" class="form-input" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Horário de Término dos Atendimentos</label>
+                  <input type="time" id="settingClosingTime" class="form-input" required>
+                </div>
+              </div>
+
+              <!-- Dias de Atendimento na Semana -->
+              <div class="form-group">
+                <label class="form-label">Dias de Abertura da Agenda (Dias em que atende)</label>
+                <p style="font-size:12px; color:var(--color-text-500); margin-bottom:8px;">Dias desmarcados ficam bloqueados automaticamente no portal do cliente.</p>
+                <div class="workday-checkbox-group" id="settingsWorkDaysGroup">
+                  <button type="button" class="workday-toggle-btn" data-day="1" onclick="window.adminManager.toggleWorkDay(1)">Seg</button>
+                  <button type="button" class="workday-toggle-btn" data-day="2" onclick="window.adminManager.toggleWorkDay(2)">Ter</button>
+                  <button type="button" class="workday-toggle-btn" data-day="3" onclick="window.adminManager.toggleWorkDay(3)">Qua</button>
+                  <button type="button" class="workday-toggle-btn" data-day="4" onclick="window.adminManager.toggleWorkDay(4)">Qui</button>
+                  <button type="button" class="workday-toggle-btn" data-day="5" onclick="window.adminManager.toggleWorkDay(5)">Sex</button>
+                  <button type="button" class="workday-toggle-btn" data-day="6" onclick="window.adminManager.toggleWorkDay(6)">Sáb</button>
+                  <button type="button" class="workday-toggle-btn" data-day="0" onclick="window.adminManager.toggleWorkDay(0)">Dom</button>
+                </div>
+              </div>
+
+              <!-- Pausa de Almoço Automática Diária -->
+              <div class="form-group" style="background-color:var(--color-surface-50); border:1px solid var(--color-border-100); border-radius:var(--radius-md); padding:16px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+                  <div>
+                    <strong style="font-size:14px; color:var(--color-text-900);">Pausa de Almoço / Intervalo Diário</strong>
+                    <p style="font-size:12px; color:var(--color-text-500); margin:0;">Bloqueia este intervalo todos os dias para que ninguém agende no seu almoço.</p>
+                  </div>
+                  <input type="checkbox" id="settingHasLunch" style="width:20px; height:20px; cursor:pointer;" onchange="window.adminManager.toggleLunchInputs()">
+                </div>
+                <div id="lunchInputsContainer" style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+                  <div class="form-group" style="margin-bottom:0;">
+                    <label class="form-label" style="font-size:12px;">Início do Almoço</label>
+                    <input type="time" id="settingLunchStart" class="form-input">
+                  </div>
+                  <div class="form-group" style="margin-bottom:0;">
+                    <label class="form-label" style="font-size:12px;">Fim do Almoço</label>
+                    <input type="time" id="settingLunchEnd" class="form-input">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tempo de Higienização entre Atendimentos -->
+              <div class="form-group">
+                <label class="form-label">Tempo de Higienização / Preparo entre Clientes</label>
+                <select id="settingCleaningBuffer" class="form-select">
+                  <option value="0">Sem intervalo adicional</option>
+                  <option value="10" selected>10 minutos de higienização da bancada</option>
+                  <option value="15">15 minutos de higienização e esterilização</option>
+                  <option value="20">20 minutos de intervalo</option>
+                </select>
+                <p style="font-size:12px; color:var(--color-text-500); margin-top:4px;">O sistema reserva automaticamente esses minutos extras após cada procedimento para esterilizar materiais.</p>
+              </div>
+
+              <!-- Bloqueio em Lote de Período (Férias / Recesso) -->
+              <div class="form-group" style="background-color:var(--color-surface-50); border:1px solid var(--color-border-100); border-radius:var(--radius-md); padding:16px;">
+                <strong style="font-size:14px; color:var(--color-text-900); display:flex; align-items:center; gap:6px; margin-bottom:4px;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                  <span>Bloqueio de Período / Férias / Recesso</span>
+                </strong>
+                <p style="font-size:12px; color:var(--color-text-500); margin-bottom:12px;">Bloqueie um intervalo de vários dias seguidos de uma vez só (ex: recesso de Natal e Ano Novo).</p>
+                <div style="display:grid; grid-template-columns: 1fr 1fr 1.5fr auto; gap:10px; align-items:flex-end;">
+                  <div>
+                    <label class="form-label" style="font-size:11px;">Data Início</label>
+                    <input type="date" id="vacationStartDate" class="form-input" style="height:36px; font-size:12px;">
+                  </div>
+                  <div>
+                    <label class="form-label" style="font-size:11px;">Data Fim</label>
+                    <input type="date" id="vacationEndDate" class="form-input" style="height:36px; font-size:12px;">
+                  </div>
+                  <div>
+                    <label class="form-label" style="font-size:11px;">Motivo / Recesso</label>
+                    <input type="text" id="vacationReasonInput" class="form-input" style="height:36px; font-size:12px;" placeholder="Ex: Férias de Verão">
+                  </div>
+                  <button type="button" class="btn-pill" style="height:36px; font-size:12px; font-weight:600;" onclick="window.adminManager.addVacationFromSettings()">
+                    + Bloquear
+                  </button>
+                </div>
+
+                <div id="vacationListContainer" class="vacation-periods-list">
+                  <!-- Populado dinamicamente -->
+                </div>
+              </div>
+            </div>
+
+            <!-- SUBTAB 3: PAGAMENTOS E SINAL -->
+            <div id="subtabSection-payments" class="settings-panel-section">
+              <!-- Formas de Pagamento Habilitadas -->
+              <div class="form-group">
+                <label class="form-label">Formas de Pagamento Habilitadas no Studio</label>
+                <p style="font-size:12px; color:var(--color-text-500); margin-bottom:8px;">Selecione os métodos que suas clientes poderão escolher ao agendar online.</p>
+                <div class="payment-methods-grid">
+                  <label class="payment-method-card">
+                    <input type="checkbox" id="payMethodPix" checked>
+                    <span style="display:inline-flex; align-items:center; gap:6px;">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+                      Pix Instantâneo (Online)
+                    </span>
+                  </label>
+                  <label class="payment-method-card">
+                    <input type="checkbox" id="payMethodCredit" checked>
+                    <span style="display:inline-flex; align-items:center; gap:6px;">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                      Cartão de Crédito (Online)
+                    </span>
+                  </label>
+                  <label class="payment-method-card">
+                    <input type="checkbox" id="payMethodDebit" checked>
+                    <span style="display:inline-flex; align-items:center; gap:6px;">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+                      Cartão de Débito (Online ou Maquininha)
+                    </span>
+                  </label>
+                  <label class="payment-method-card">
+                    <input type="checkbox" id="payMethodLocal" checked>
+                    <span style="display:inline-flex; align-items:center; gap:6px;">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                      Pagar no Local (Dinheiro / Maquininha)
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Política de Cobrança / Sinal de Reserva -->
+              <div class="form-group" style="margin-top:20px;">
+                <label class="form-label">Política de Cobrança e Reserva de Horário</label>
+                <p style="font-size:12px; color:var(--color-text-500); margin-bottom:12px;">Escolha como as clientes garantem a vaga ao agendar:</p>
+
+                <label class="policy-radio-card" id="cardPolicyFull">
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <input type="radio" name="settingDepositPolicy" value="full" checked onchange="window.adminManager.toggleDepositOptions()">
+                    <strong>100% no Agendamento Online</strong>
+                  </div>
+                  <span style="font-size:12px; color:var(--color-text-500); margin-left:24px;">A cliente paga o valor total do procedimento para confirmar a vaga.</span>
+                </label>
+
+                <label class="policy-radio-card" id="cardPolicyDeposit">
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <input type="radio" name="settingDepositPolicy" value="deposit" onchange="window.adminManager.toggleDepositOptions()">
+                    <strong>Sinal de Reserva (Anti-Falta / Entrada)</strong>
+                  </div>
+                  <span style="font-size:12px; color:var(--color-text-500); margin-left:24px;">A cliente paga apenas um valor de entrada para segurar a vaga e o restante é acertado no studio.</span>
+                </label>
+
+                <div id="depositInputsBox" style="display:none; margin: -4px 0 12px 24px; padding:12px; background:var(--color-surface-50); border:1px solid var(--color-border-100); border-radius:var(--radius-sm);">
+                  <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+                    <div>
+                      <label class="form-label" style="font-size:11px;">Tipo de Sinal</label>
+                      <select id="settingDepositType" class="form-select" style="font-size:12px;" onchange="window.adminManager.toggleDepositTypeInputs()">
+                        <option value="percentage">Porcentagem do Serviço (%)</option>
+                        <option value="fixed">Valor Fixo (R$)</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="form-label" style="font-size:11px;" id="lblDepositVal">Porcentagem (%)</label>
+                      <input type="number" id="settingDepositValue" class="form-input" style="font-size:12px;" value="30" min="1" max="100">
+                    </div>
+                  </div>
+                </div>
+
+                <label class="policy-radio-card" id="cardPolicyLocal">
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <input type="radio" name="settingDepositPolicy" value="local" onchange="window.adminManager.toggleDepositOptions()">
+                    <strong>Pagamento 100% no Local (Sem cobrança online)</strong>
+                  </div>
+                  <span style="font-size:12px; color:var(--color-text-500); margin-left:24px;">O agendamento é reservado gratuitamente e o acerto é feito após o atendimento.</span>
+                </label>
+              </div>
+
+              <!-- Chave Pix -->
+              <div style="display:grid; grid-template-columns: 1fr 2fr; gap:16px; margin-top:20px;">
+                <div class="form-group">
+                  <label class="form-label">Tipo de Chave Pix</label>
+                  <select id="settingPixKeyType" class="form-select">
+                    <option value="Celular">Celular</option>
+                    <option value="CPF">CPF / CNPJ</option>
+                    <option value="E-mail">E-mail</option>
+                    <option value="Aleatória">Chave Aleatória</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Chave Pix para Recebimento *</label>
+                  <input type="text" id="settingPixKey" class="form-input" placeholder="11987654321" required>
+                </div>
+              </div>
+            </div>
+
+            <!-- SUBTAB 4: REGRAS E POLÍTICAS -->
+            <div id="subtabSection-rules" class="settings-panel-section">
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+                <div class="form-group">
+                  <label class="form-label">Antecedência Mínima para Agendar</label>
+                  <select id="settingMinNotice" class="form-select">
+                    <option value="1">No mínimo 1 hora antes</option>
+                    <option value="2" selected>No mínimo 2 horas antes</option>
+                    <option value="4">No mínimo 4 horas antes</option>
+                    <option value="24">No mínimo 24 horas (1 dia antes)</option>
+                  </select>
+                  <p style="font-size:12px; color:var(--color-text-500); margin-top:4px;">Evita agendamentos em cima da hora enquanto você está atendendo.</p>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Janela Máxima da Agenda</label>
+                  <select id="settingMaxDaysAhead" class="form-select">
+                    <option value="15">Até 15 dias no futuro</option>
+                    <option value="30" selected>Até 30 dias (1 mês)</option>
+                    <option value="60">Até 60 dias (2 meses)</option>
+                    <option value="90">Até 90 dias (3 meses)</option>
+                  </select>
+                  <p style="font-size:12px; color:var(--color-text-500); margin-top:4px;">Controla até quando os clientes podem ver horários disponíveis.</p>
+                </div>
+              </div>
+
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+                <div class="form-group">
+                  <label class="form-label">Cancelamento e Reagendamento sem Multa</label>
+                  <select id="settingCancelNotice" class="form-select">
+                    <option value="2">Até 2 horas antes do horário</option>
+                    <option value="4" selected>Até 4 horas antes do horário</option>
+                    <option value="12">Até 12 horas antes</option>
+                    <option value="24">Até 24 horas antes</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Tolerância Máxima de Atraso</label>
+                  <select id="settingDelayTolerance" class="form-select">
+                    <option value="5">5 minutos de tolerância</option>
+                    <option value="10" selected>10 minutos de tolerância</option>
+                    <option value="15">15 minutos de tolerância</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Sinal Sonoro e Alerta de Novo Agendamento -->
+              <div class="form-group" style="background:var(--color-surface-50); border:1px solid var(--color-border-100); border-radius:var(--radius-md); padding:16px; margin-top:20px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+                  <div>
+                    <strong style="font-size:14px; color:var(--color-text-900); display:flex; align-items:center; gap:6px;">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                      <span>Sinal Sonoro e Alerta de Novo Agendamento</span>
+                    </strong>
+                    <p style="font-size:12px; color:var(--color-text-500); margin:4px 0 0 0;">
+                      Toca um sino harmônico no seu painel e exibe um card de aviso toda vez que uma cliente agendar online.
+                    </p>
+                  </div>
+                  <div style="display:flex; gap:8px; align-items:center;">
+                    <button type="button" class="btn-pill" style="height:34px; font-size:12px; display:inline-flex; align-items:center; gap:6px;" onclick="window.soundAlertManager.playChime()">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                      <span>Testar Som</span>
+                    </button>
+                    <button type="button" class="btn-pill" style="height:34px; font-size:12px; display:inline-flex; align-items:center; gap:6px;" onclick="window.app.simulateNewBookingNotification()">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                      <span>Simular Alerta Completo</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Botão Salvar Todas as Configurações -->
+            <button type="submit" class="btn-primary" style="margin-top:24px; width:100%; height:48px; font-size:15px; display:inline-flex; align-items:center; justify-content:center; gap:8px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+              <span>Salvar Todas as Configurações</span>
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- 4.7 FAB (Floating Action Button 56 px) -->
+      <button class="btn-fab" id="fabAddAppointment" title="Novo Agendamento Rápido" onclick="window.adminManager.openManualBookingModal()">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+      </button>
+    </main>
+
+  </div>
+
+  <!-- ========================================================================
+       2. TELA DE LOGIN DA MANICURE (ACESSO RESTRITO)
+       ======================================================================== -->
+  <div id="manicureLoginView" class="manicure-login-view" style="display:none;">
+    <div class="login-card-box">
+      <!-- Ícone e Cabeçalho -->
+      <div class="login-header-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+      </div>
+      <h2>Painel da Manicure</h2>
+      <p class="login-subtitle">Entre com seu e-mail e senha para gerenciar seus horários, clientes e faturamento.</p>
+
+      <!-- Abas de Acesso: Já tenho Acesso vs Criar Acesso Definitivo -->
+      <div class="login-tabs-nav">
+        <button type="button" class="login-tab-btn active" id="tabBtnLogin" onclick="window.authManager && window.authManager.switchAuthTab('login')">
+          Já tenho Acesso
+        </button>
+        <button type="button" class="login-tab-btn" id="tabBtnRegister" onclick="window.authManager && window.authManager.switchAuthTab('register')">
+          Criar Acesso Definitivo
+        </button>
+      </div>
+
+      <!-- Mensagem de Erro Compartilhada -->
+      <div id="loginErrorAlert" class="login-error-alert">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        <span id="loginErrorText">E-mail ou senha incorretos.</span>
+      </div>
+
+      <!-- PAINEL 1: Já tenho Acesso -->
+      <div id="panelAuthLogin">
+        <!-- Formulário de Login -->
+        <form id="manicureLoginForm">
+          <!-- Campo: E-mail ou WhatsApp -->
+          <div class="form-group">
+            <label class="form-label" for="loginEmail" style="font-size:13px; font-weight:700;">E-mail ou WhatsApp</label>
+            <div class="login-input-wrapper">
+              <span class="login-input-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              </span>
+              <input type="text" id="loginEmail" class="login-form-input" placeholder="manicure@studio.com ou seu WhatsApp" required autocomplete="username">
+            </div>
+          </div>
+
+          <!-- Campo: Senha -->
+          <div class="form-group" style="margin-bottom:12px;">
+            <label class="form-label" for="loginPassword" style="font-size:13px; font-weight:700;">Senha de Acesso</label>
+            <div class="login-input-wrapper">
+              <span class="login-input-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              </span>
+              <input type="password" id="loginPassword" class="login-form-input" placeholder="••••••••" required autocomplete="current-password">
+              <button type="button" class="btn-toggle-eye" id="btnTogglePassword" aria-label="Mostrar ou ocultar senha">
+                <svg id="eyeIconSvg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Linha: Lembrar de mim e Esqueci a senha -->
+          <div class="login-options-row">
+            <label class="login-remember-label">
+              <input type="checkbox" id="loginRemember" checked>
+              <span>Lembrar de mim</span>
+            </label>
+            <button type="button" class="login-forgot-link" id="btnForgotPassword">Esqueceu a senha?</button>
+          </div>
+
+          <!-- Botão Entrar -->
+          <button type="submit" class="btn-login-submit" id="btnLoginSubmit">
+            <span>Entrar no Painel</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </form>
+
+        <!-- Acesso Rápido de Teste (1-Clique) -->
+        <div class="login-demo-box">
+          <div class="login-demo-title" style="display:flex; align-items:center; gap:6px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+            <span>Acesso Rápido (Demonstração)</span>
+          </div>
+          <div class="login-demo-creds">
+            Login: <strong>manicure@studio.com</strong> • Senha: <strong>123456</strong>
+          </div>
+          <button type="button" class="btn-demo-quick" id="btnQuickDemoLogin">
+            <span>Entrar com 1 Clique</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- PAINEL 2: Criar Acesso Definitivo (Primeiro Acesso) -->
+      <div id="panelAuthRegister" style="display:none;">
+        <form id="manicureRegisterForm">
+          <!-- Campo: Nome Completo / Studio -->
+          <div class="form-group">
+            <label class="form-label" for="registerName" style="font-size:13px; font-weight:700;">Seu Nome ou Nome do Studio</label>
+            <div class="login-input-wrapper">
+              <span class="login-input-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              </span>
+              <input type="text" id="registerName" class="login-form-input" placeholder="Ex: Bela Souza Nail Designer" required>
+            </div>
+          </div>
+
+          <!-- Campo: WhatsApp -->
+          <div class="form-group">
+            <label class="form-label" for="registerPhone" style="font-size:13px; font-weight:700;">WhatsApp Profissional</label>
+            <div class="login-input-wrapper">
+              <span class="login-input-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              </span>
+              <input type="tel" id="registerPhone" class="login-form-input" placeholder="(11) 98765-4321">
+            </div>
+          </div>
+
+          <!-- Campo: E-mail Definitivo -->
+          <div class="form-group">
+            <label class="form-label" for="registerEmail" style="font-size:13px; font-weight:700;">E-mail Definitivo de Acesso</label>
+            <div class="login-input-wrapper">
+              <span class="login-input-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              </span>
+              <input type="email" id="registerEmail" class="login-form-input" placeholder="seu-email-real@gmail.com" required>
+            </div>
+          </div>
+
+          <!-- Campo: Senha Definitiva -->
+          <div class="form-group" style="margin-bottom:18px;">
+            <label class="form-label" for="registerPassword" style="font-size:13px; font-weight:700;">Crie sua Senha Definitiva</label>
+            <div class="login-input-wrapper">
+              <span class="login-input-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              </span>
+              <input type="password" id="registerPassword" class="login-form-input" placeholder="Mínimo 4 dígitos" required minlength="4">
+              <button type="button" class="btn-toggle-eye" id="btnToggleRegisterPassword" aria-label="Mostrar ou ocultar senha">
+                <svg id="eyeRegisterIconSvg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Botão Gerar Acesso Definitivo -->
+          <button type="submit" class="btn-login-submit" id="btnRegisterSubmit">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <span>Criar Meu Acesso e Entrar</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- Rodapé: Voltar ao Portal do Cliente -->
+      <div class="login-footer-nav">
+        <button type="button" class="btn-back-to-client-portal" onclick="window.app.switchView('client')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+          <span>Acessar Portal de Agendamento do Cliente</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       3. PORTAL DO CLIENTE (FLUXO DE AGENDAMENTO E PAGAMENTO ONLINE)
+       ======================================================================== -->
+  <div id="clientBookingView" class="booking-view-container" style="display:none;">
+
+    <!-- Topbar do Cliente -->
+    <header class="booking-topbar">
+      <div class="booking-topbar-inner">
+        <div class="booking-logo" onclick="window.bookingFlow.goToStep(1)">
+          <div class="booking-logo-badge" id="clientBookingLogoBadge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          </div>
+          <div class="booking-logo-text">
+            <h1 id="clientBookingStudioName">Studio Bela Unha</h1>
+            <p id="clientBookingStudioSubtitle">Agendamento e Pagamento Seguro</p>
+          </div>
+        </div>
+
+        <button id="btnBackToAdmin" class="btn-back-admin" title="Acessar o painel restrito da manicure">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+          <span>Painel da Manicure (Login)</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- 4.4 Topbar de Progresso com Etapas Conectadas -->
+    <nav class="booking-steps-nav" aria-label="Etapas do agendamento">
+      <div class="steps-track">
+        <div class="steps-line-connector">
+          <div id="stepsProgressLine" class="steps-line-progress"></div>
+        </div>
+
+        <div class="step-item active" id="navStepItem1">
+          <div class="step-circle">1</div>
+          <span class="step-label">Serviços</span>
+        </div>
+
+        <div class="step-item" id="navStepItem2">
+          <div class="step-circle">2</div>
+          <span class="step-label">Data e Hora</span>
+        </div>
+
+        <div class="step-item" id="navStepItem3">
+          <div class="step-circle">3</div>
+          <span class="step-label">Seus Dados</span>
+        </div>
+
+        <div class="step-item" id="navStepItem4">
+          <div class="step-circle">4</div>
+          <span class="step-label">Pagamento</span>
+        </div>
+
+        <div class="step-item" id="navStepItem5">
+          <div class="step-circle">5</div>
+          <span class="step-label">Confirmação</span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Conteúdo das Etapas -->
+    <main class="booking-content-area">
+
+      <!-- ETAPA 1: ESCOLHA DE SERVIÇOS -->
+      <section id="bookingStep1" class="booking-step-panel active">
+        <div class="step-heading">
+          <h2>Selecione seus Procedimentos</h2>
+          <p>Escolha um ou mais serviços para o seu momento de cuidado e beleza.</p>
+        </div>
+
+        <div id="bookingCategoryFilters" class="services-filter-bar" style="justify-content:center; margin-bottom:28px;">
+          <!-- Filtros de categoria -->
+        </div>
+
+        <div id="bookingServicesGrid" class="client-services-grid">
+          <!-- Cards com fotos geradas -->
+        </div>
+      </section>
+
+      <!-- ETAPA 2: DATA E HORÁRIO DISPONÍVEL -->
+      <section id="bookingStep2" class="booking-step-panel">
+        <div class="step-heading">
+          <h2>Escolha a Melhor Data e Horário</h2>
+          <p>Nosso sistema calcula horários livres em tempo real sem conflitos de agenda.</p>
+        </div>
+
+        <div class="datetime-selection-grid">
+          <!-- Calendário de Seleção do Dia -->
+          <div class="date-picker-box">
+            <div class="box-header-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <span>1. Selecione o Dia</span>
+            </div>
+            <div id="bookingDateCalendar">
+              <!-- Gerado via JS -->
+            </div>
+          </div>
+
+          <!-- Grade de Horários Livres -->
+          <div class="time-slots-box">
+            <div class="box-header-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              <span>2. Selecione o Horário</span>
+            </div>
+            <div id="bookingSelectedSlotBanner" style="display:none; margin-bottom:12px; padding:10px 14px; background:#eff6ff; border:1.5px solid #93c5fd; border-radius:var(--radius-md); font-size:13px; font-weight:700; color:#1e40af; align-items:center; justify-content:space-between;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:16px;">✓</span>
+                <span>Horário escolhido: <strong id="bookingSelectedSlotText" style="font-size:15px; color:#071854;"></strong></span>
+              </div>
+              <span style="font-size:11px; background:#2563eb; color:#fff; padding:2px 8px; border-radius:12px;">Selecionado</span>
+            </div>
+            <div id="bookingTimeSlots" class="slots-grid">
+              <!-- Slots gerados dinamicamente -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ETAPA 3: DADOS DE CONTATO -->
+      <section id="bookingStep3" class="booking-step-panel">
+        <div class="step-heading">
+          <h2>Seus Dados de Contato</h2>
+          <p>Para enviarmos o lembrete de atendimento e o comprovante pelo WhatsApp.</p>
+        </div>
+
+        <div class="client-form-container">
+          <!-- Alerta de Boas-Vindas à Cliente Reconhecida -->
+          <div id="returningClientAlert" style="display:none; margin-bottom:20px; padding:14px 16px; background:linear-gradient(135deg, #f0eef7 0%, #faf5ff 100%); border:1.5px solid #d8b4fe; border-radius:var(--radius-md); box-shadow:0 2px 8px rgba(67,24,84,0.06);">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+              <div style="display:flex; align-items:center; gap:10px;">
+                <div style="width:36px; height:36px; border-radius:50%; background:var(--color-brand-700); color:#fff; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </div>
+                <div>
+                  <div style="font-weight:700; font-size:14px; color:var(--color-brand-900);">
+                    Que bom ter você de volta, <span id="returningClientName">Mariana</span>!
+                  </div>
+                  <div style="font-size:12px; color:var(--color-text-600); margin-top:2px;">
+                    Localizamos seu cadastro. Seus dados foram preenchidos automaticamente.
+                  </div>
+                </div>
+              </div>
+              <button type="button" onclick="window.bookingFlow.clearRecognizedClient()" style="background:transparent; border:1px solid #c4b5fd; border-radius:6px; color:var(--color-brand-700); cursor:pointer; font-size:11.5px; font-weight:600; padding:6px 10px;" title="Limpar e digitar outros dados">
+                Não é você?
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <label class="form-label" for="clientPhoneInput" style="margin-bottom:0;">WhatsApp / Celular com DDD *</label>
+              <span id="phoneRecognizedBadge" style="display:none; font-size:11.5px; color:#15803d; font-weight:600; align-items:center; gap:4px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Cliente cadastrada
+              </span>
+            </div>
+            <input type="tel" id="clientPhoneInput" class="form-input" placeholder="(11) 98765-4321" required>
+            <span style="font-size:11.5px; color:var(--color-text-500); display:block; margin-top:4px;">
+              Clientes frequentes: ao digitar seu WhatsApp, seus dados são carregados automaticamente.
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="clientNameInput">Seu Nome Completo *</label>
+            <input type="text" id="clientNameInput" class="form-input" placeholder="Ex: Fernanda Silveira" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="clientEmailInput">E-mail (Opcional)</label>
+            <input type="email" id="clientEmailInput" class="form-input" placeholder="exemplo@email.com">
+          </div>
+
+          <!-- Opção de Local do Atendimento: No Studio ou Na Casa da Cliente -->
+          <div class="form-group" id="clientLocationChoiceGroup">
+            <label class="form-label" style="font-weight:700;">Local do Atendimento *</label>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;" id="clientLocationButtonsGrid">
+              <label class="payment-method-card" id="clientLocStudioLabel" style="margin:0; padding:10px 14px; cursor:pointer; font-size:13px; font-weight:600; display:flex; align-items:center; gap:8px;">
+                <input type="radio" name="clientServiceLocation" id="clientLocStudio" value="studio" onchange="window.bookingFlow && window.bookingFlow.onLocationChange()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="9" y1="6" x2="9" y2="6.01"></line><line x1="15" y1="6" x2="15" y2="6.01"></line><line x1="9" y1="10" x2="9" y2="10.01"></line><line x1="15" y1="10" x2="15" y2="10.01"></line><line x1="9" y1="14" x2="9" y2="14.01"></line><line x1="15" y1="14" x2="15" y2="14.01"></line><line x1="9" y1="18" x2="15" y2="18"></line></svg>
+                <div style="display:flex; flex-direction:column; line-height:1.2;">
+                  <span>No Studio</span>
+                  <span style="font-size:11px; font-weight:500; color:var(--color-text-500); margin-top:2px;">Presencial</span>
+                </div>
+              </label>
+              <label class="payment-method-card" id="clientLocHomeLabel" style="margin:0; padding:10px 14px; cursor:pointer; font-size:13px; font-weight:600; display:flex; align-items:center; gap:8px;">
+                <input type="radio" name="clientServiceLocation" id="clientLocHome" value="home" onchange="window.bookingFlow && window.bookingFlow.onLocationChange()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                <div style="display:flex; flex-direction:column; line-height:1.2;">
+                  <span>Na Minha Casa</span>
+                  <span id="clientLocHomeFeeText" style="font-size:11px; font-weight:500; color:var(--color-text-500); margin-top:2px;">A domicílio</span>
+                </div>
+              </label>
+            </div>
+            <div id="studioAddressBadgeInfo" style="display:none; font-size:12px; color:var(--color-text-500); margin-top:8px; align-items:center; gap:6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              <span>Endereço do Studio:</span> <strong id="studioAddressDisplay"></strong>
+            </div>
+          </div>
+
+          <!-- Campo de Endereço da Cliente (Exibido se for na casa da cliente) -->
+          <div class="form-group" id="clientAddressGroup" style="display:none; background:#eff6ff; border:1.5px solid #93c5fd; border-radius:var(--radius-md); padding:14px;">
+            <label class="form-label" for="clientAddressInput" style="font-weight:700; color:#1e40af; display:flex; align-items:center; gap:6px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+              <span>Seu Endereço Completo para Atendimento *</span>
+            </label>
+            <input type="text" id="clientAddressInput" class="form-input" placeholder="Rua, Número, Apto/Bloco, Bairro e Ponto de Referência">
+            <span style="font-size:12px; color:#1e40af; display:block; margin-top:6px; font-weight:500;">
+              ✓ A manicure se deslocará até a sua residência no dia e horário escolhidos.
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="clientNotesInput">Observações ou Preferências (Opcional)</label>
+            <textarea id="clientNotesInput" class="form-textarea" placeholder="Ex: Alergia a algum esmalte, preferência por cutícula funda, unhas sensíveis..."></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- ETAPA 4: PAGAMENTO ONLINE E NO STUDIO -->
+      <section id="bookingStep4" class="booking-step-panel">
+        <div class="step-heading">
+          <h2>Pagamento e Confirmação da Reserva</h2>
+          <p>Garanta seu horário com rapidez e segurança total.</p>
+        </div>
+
+        <div class="payment-flow-container">
+
+          <!-- Aviso de Sinal de Reserva ou Política de Pagamento Dinâmica -->
+          <div id="paymentSummaryNotice"></div>
+
+          <div class="payment-methods-tabs" id="paymentMethodsTabsContainer">
+            <button class="payment-tab-btn active" id="tabPix" type="button" onclick="window.bookingFlow.switchPaymentTab('PIX')">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+              <span>Pix Instantâneo</span>
+            </button>
+            <button class="payment-tab-btn" id="tabCredit" type="button" onclick="window.bookingFlow.switchPaymentTab('CREDITO')">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+              <span>Cartão de Crédito</span>
+            </button>
+            <button class="payment-tab-btn" id="tabDebit" type="button" onclick="window.bookingFlow.switchPaymentTab('DEBITO')">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+              <span>Cartão de Débito</span>
+            </button>
+            <button class="payment-tab-btn" id="tabLocal" type="button" onclick="window.bookingFlow.switchPaymentTab('LOCAL')">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+              <span>Pagar no Studio</span>
+            </button>
+          </div>
+
+          <!-- 1. PAINEL PIX -->
+          <div id="panelPix" class="payment-panel active">
+            <div class="pix-qr-container">
+              <div style="font-size:14px; color:var(--color-text-700); margin-bottom:4px;" id="pixLabelAmount">Total a pagar via Pix:</div>
+              <div id="pixAmountDisplay" style="font-size:30px; font-weight:800; color:var(--color-brand-900); margin-bottom:16px;">R$ 0,00</div>
+
+              <div class="pix-qr-box">
+                <div id="pixQrContainer"></div>
+              </div>
+
+              <div class="pix-timer-alert">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block; vertical-align:middle; margin-right:4px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                <span>O QR Code expira em:</span>
+                <strong id="pixTimerDisplay">15:00</strong>
+              </div>
+
+              <div class="pix-copia-cola-box">
+                <label class="form-label" style="text-align:left;">Código Pix Copia e Cola:</label>
+                <div class="pix-input-group">
+                  <input type="text" id="pixCopiaColaInput" class="form-input" readonly>
+                  <button class="btn-primary" type="button" style="white-space:nowrap; padding:0 16px;" onclick="window.bookingFlow.copyPixCode()">
+                    Copiar Código
+                  </button>
+                </div>
+              </div>
+
+              <!-- Simulação do Pagamento Pix -->
+              <div style="background-color:var(--color-surface-50); border:1px dashed var(--color-border-100); border-radius:var(--radius-md); padding:16px; width:100%; margin-top:8px;">
+                <p style="font-size:13px; color:var(--color-text-700); margin-bottom:12px;">
+                  <strong>Ambiente de Demonstração:</strong> Você pode escanear o QR Code acima ou clicar no botão abaixo para simular a aprovação instantânea pelo Banco Central:
+                </p>
+                <button type="button" class="pix-simulate-btn" style="width:100%; display:inline-flex; align-items:center; justify-content:center; gap:6px;" onclick="window.bookingFlow.simulatePixPaymentSuccess()">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Simular Pagamento Pix Aprovado (Instantâneo)</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. PAINEL CARTÃO DE CRÉDITO -->
+          <div id="panelCredit" class="payment-panel">
+            <div class="credit-card-preview">
+              <div class="cc-top-row">
+                <div class="cc-chip"></div>
+                <div style="font-weight:700; font-size:14px; letter-spacing:1px; background:rgba(255,255,255,0.2); padding:2px 8px; border-radius:4px;">CRÉDITO</div>
+              </div>
+              <div class="cc-number" id="ccDisplayNumber">•••• •••• •••• ••••</div>
+              <div class="cc-bottom-row">
+                <div>
+                  <div style="font-size:9px; opacity:0.8;">TITULAR</div>
+                  <div id="ccDisplayHolder" style="font-weight:700; font-size:12px;">NOME DO TITULAR</div>
+                </div>
+                <div>
+                  <div style="font-size:9px; opacity:0.8;">VALIDADE</div>
+                  <div id="ccDisplayExpiry" style="font-weight:700; font-size:12px;">MM/AA</div>
+                </div>
+              </div>
+            </div>
+
+            <form id="cardPaymentForm" onsubmit="event.preventDefault(); window.bookingFlow.processCreditCardPayment();">
+              <div class="form-group">
+                <label class="form-label">Número do Cartão de Crédito</label>
+                <input type="text" id="ccNumber" class="form-input" placeholder="0000 0000 0000 0000" maxlength="19" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Nome impresso no Cartão</label>
+                <input type="text" id="ccHolder" class="form-input" placeholder="COMO NO CARTÃO" required>
+              </div>
+
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+                <div class="form-group">
+                  <label class="form-label">Validade</label>
+                  <input type="text" id="ccExpiry" class="form-input" placeholder="MM/AA" maxlength="5" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">CVV</label>
+                  <input type="text" id="ccCvv" class="form-input" placeholder="123" maxlength="4" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Opção de Parcelamento</label>
+                <select class="form-select" id="ccInstallments">
+                  <option value="1">1x sem juros (À vista)</option>
+                  <option value="2">2x sem juros</option>
+                  <option value="3">3x sem juros</option>
+                </select>
+              </div>
+
+              <button type="submit" id="btnSubmitCredit" class="btn-primary" style="width:100%; height:48px; margin-top:16px; display:inline-flex; align-items:center; justify-content:center; gap:8px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                <span>Pagar no Crédito e Confirmar Agendamento</span>
+              </button>
+            </form>
+          </div>
+
+          <!-- 3. PAINEL CARTÃO DE DÉBITO -->
+          <div id="panelDebit" class="payment-panel">
+            <div class="debit-card-preview">
+              <div class="cc-top-row">
+                <div class="cc-chip"></div>
+                <div style="font-weight:700; font-size:14px; letter-spacing:1px; background:rgba(255,255,255,0.25); padding:2px 8px; border-radius:4px;">DÉBITO ONLINE</div>
+              </div>
+              <div class="cc-number" id="debDisplayNumber">•••• •••• •••• ••••</div>
+              <div class="cc-bottom-row">
+                <div>
+                  <div style="font-size:9px; opacity:0.8;">TITULAR</div>
+                  <div id="debDisplayHolder" style="font-weight:700; font-size:12px;">NOME DO TITULAR</div>
+                </div>
+                <div>
+                  <div style="font-size:9px; opacity:0.8;">VALIDADE</div>
+                  <div id="debDisplayExpiry" style="font-weight:700; font-size:12px;">MM/AA</div>
+                </div>
+              </div>
+            </div>
+
+            <form id="debitPaymentForm" onsubmit="event.preventDefault(); window.bookingFlow.processDebitCardPayment();">
+              <div class="form-group">
+                <label class="form-label">Banco Emissor / Rede do Cartão</label>
+                <select class="form-select" id="debBankSelect">
+                  <option value="Nubank Débito">Nubank Débito</option>
+                  <option value="Itaú Débito">Itaú Débito</option>
+                  <option value="Bradesco Débito">Bradesco Débito</option>
+                  <option value="Banco do Brasil">Banco do Brasil (Visa/Elo)</option>
+                  <option value="Santander Débito">Santander Débito</option>
+                  <option value="Banco Inter">Banco Inter Débito</option>
+                  <option value="Caixa / Elo Débito">Caixa Econômica Federal / Elo</option>
+                  <option value="Outro Banco">Outro Banco (Mastercard/Visa/Elo)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Número do Cartão de Débito</label>
+                <input type="text" id="debNumber" class="form-input" placeholder="0000 0000 0000 0000" maxlength="19" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Nome impresso no Cartão</label>
+                <input type="text" id="debHolder" class="form-input" placeholder="COMO NO CARTÃO" required>
+              </div>
+
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+                <div class="form-group">
+                  <label class="form-label">Validade</label>
+                  <input type="text" id="debExpiry" class="form-input" placeholder="MM/AA" maxlength="5" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">CVV</label>
+                  <input type="text" id="debCvv" class="form-input" placeholder="123" maxlength="4" required>
+                </div>
+              </div>
+
+              <button type="submit" id="btnSubmitDebit" class="btn-primary" style="width:100%; height:48px; margin-top:16px; display:inline-flex; align-items:center; justify-content:center; gap:8px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                <span>Autorizar Débito em Conta e Confirmar</span>
+              </button>
+
+              <div style="background-color:var(--color-surface-50); border:1px dashed var(--color-border-100); border-radius:var(--radius-md); padding:14px; width:100%; margin-top:14px; text-align:center;">
+                <p style="font-size:12px; color:var(--color-text-700); margin-bottom:10px;">
+                  <strong>Simulação Rápida:</strong> Clique abaixo para simular a autenticação do seu banco com sucesso:
+                </p>
+                <button type="button" class="btn-secondary" style="width:100%; justify-content:center; display:inline-flex; align-items:center; gap:6px;" onclick="window.bookingFlow.simulateDebitPaymentSuccess()">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Simular Débito Aprovado pelo Banco (Instantâneo)</span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- 4. PAINEL PAGAR NO LOCAL -->
+          <div id="panelLocal" class="payment-panel">
+            <div class="local-payment-box">
+              <div class="local-payment-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+              </div>
+              <h3 style="font-size:18px; font-weight:800; color:var(--color-brand-900); margin-bottom:8px;">Pagamento no Local do Atendimento</h3>
+              <p style="font-size:14px; color:var(--color-text-700); max-width:480px; margin:0 auto 20px; line-height:1.5;">
+                Seu horário será reservado imediatamente. O acerto é feito presencialmente no studio diretamente com a manicure após a conclusão do serviço.
+              </p>
+
+              <div style="display:flex; justify-content:center; gap:16px; margin-bottom:24px; font-size:13px; color:var(--color-text-600); flex-wrap:wrap;">
+                <span style="display:inline-flex; align-items:center; gap:6px;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                  Dinheiro
+                </span>
+                <span style="display:inline-flex; align-items:center; gap:6px;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                  Maquininha (Crédito/Débito)
+                </span>
+                <span style="display:inline-flex; align-items:center; gap:6px;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+                  Pix Presencial
+                </span>
+              </div>
+
+              <div id="localAmountDisplay" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:var(--radius-md); padding:16px; max-width:400px; margin:0 auto 24px;">
+                <div style="font-size:12px; color:var(--color-text-500); text-transform:uppercase; font-weight:700;">Total a acertar no Studio:</div>
+                <div id="localTotalValue" style="font-size:26px; font-weight:800; color:var(--color-brand-900); margin-top:4px;">R$ 0,00</div>
+              </div>
+
+              <button type="button" id="btnConfirmLocal" class="btn-primary" style="height:50px; padding:0 32px; font-size:15px; margin:0 auto; display:inline-flex; align-items:center; gap:8px;" onclick="window.bookingFlow.processLocalPayment()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Confirmar Agendamento (Pagar no Studio)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ETAPA 5: CONFIRMAÇÃO E VOUCHER -->
+      <section id="bookingStep5" class="booking-step-panel">
+        <div class="confirmation-card">
+          <div class="success-check-badge">✓</div>
+          <h2>Agendamento Confirmado!</h2>
+          <p style="color:var(--color-text-700); font-size:15px;">
+            Seu pagamento foi aprovado e seu horário já está reservado na agenda da profissional.
+          </p>
+
+          <div id="bookingVoucherContent" class="confirmation-voucher">
+            <!-- Detalhes do comprovante via JS -->
+          </div>
+
+          <div class="confirmation-actions">
+            <a id="btnWhatsappConfirmation" class="btn-whatsapp-confirm" target="_blank" rel="noopener">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.669-.699c.969.54 1.772.82 2.79.82 3.18 0 5.767-2.586 5.768-5.766 0-3.18-2.587-5.766-5.767-5.766zm9.969 5.766c0 5.485-4.464 9.948-9.95 9.948-1.688 0-3.273-.426-4.665-1.173l-5.385 1.411 1.439-5.253c-.848-1.455-1.339-3.14-1.339-4.933 0-5.485 4.464-9.949 9.95-9.949 5.486 0 9.95 4.464 9.95 9.949z"/></svg>
+              <span>Notificar Manicure no WhatsApp</span>
+            </a>
+
+            <div style="display:flex; gap:12px;">
+              <a id="btnGoogleCalendar" class="btn-secondary" style="flex:1; justify-content:center; display:inline-flex; align-items:center; gap:6px;" target="_blank" rel="noopener">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                <span>Adicionar ao Google Agenda</span>
+              </a>
+              <button class="btn-secondary" style="flex:1; display:inline-flex; align-items:center; justify-content:center; gap:6px;" onclick="window.print()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                <span>Imprimir Comprovante</span>
+              </button>
+            </div>
+
+            <button class="btn-primary" style="margin-top:12px;" onclick="window.app.switchView('admin')">
+              Voltar ao Painel de Gestão (Ver na Agenda)
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Barra Flutuante de Resumo e Navegação Padronizada (Etapas 1 a 4) -->
+    <div id="bookingSummaryBar" class="booking-bottom-bar" style="display:none;">
+      <div class="booking-bottom-inner">
+        <!-- Botão Voltar (aparece nas etapas 2, 3 e 4) -->
+        <button id="btnFooterBack" type="button" class="btn-secondary" style="display:none; height:48px; padding:0 22px; font-weight:600; align-items:center; gap:8px;" onclick="window.bookingFlow.goBack()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          <span id="btnFooterBackText">Voltar</span>
+        </button>
+
+        <!-- Detalhes do Resumo -->
+        <div class="summary-details" id="bookingFooterSummary">
+          <div class="summary-item" id="footerItemCount">
+            <div class="label">Selecionados:</div>
+            <div class="value" id="summaryServiceCount">0 serviços</div>
+          </div>
+          <div class="summary-item" id="footerItemDuration">
+            <div class="label">Duração estimada:</div>
+            <div class="value" id="summaryTotalDuration">0 min</div>
+          </div>
+          <div class="summary-item" id="footerItemDateTime" style="display:none;">
+            <div class="label">Data e Horário:</div>
+            <div class="value" id="summarySelectedDateTime" style="font-size:15px; color:var(--color-brand-700);">—</div>
+          </div>
+          <div class="summary-item" id="footerItemTotal">
+            <div class="label" id="summaryTotalLabel">Total:</div>
+            <div class="value" id="summaryTotalPrice" style="font-size:22px;">R$ 0,00</div>
+          </div>
+        </div>
+
+        <!-- Botões de Ação por Etapa -->
+        <div class="footer-actions-group" style="display:flex; align-items:center; gap:12px; white-space:nowrap; flex-shrink:0;">
+          <!-- Botão Etapa 1 -->
+          <button id="btnNextStep1" class="btn-primary" style="height:48px; padding:0 24px; white-space:nowrap;" onclick="window.bookingFlow.goToStep(2)">
+            <span>Continuar</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </button>
+
+          <!-- Botão Etapa 2 -->
+          <button id="btnNextStep2" class="btn-primary" style="display:none; height:48px; padding:0 24px; white-space:nowrap;" disabled onclick="window.bookingFlow.goToStep(3)">
+            <span>Continuar</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </button>
+
+          <!-- Botão Etapa 3 -->
+          <button id="btnNextStep3" class="btn-primary" style="display:none; height:48px; padding:0 24px; white-space:nowrap;" disabled onclick="window.bookingFlow.goToStep(4)">
+            <span>Ir para Pagamento</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </button>
+
+          <!-- Botão Etapa 4 -->
+          <button id="btnNextStep4" class="btn-primary" style="display:none; height:48px; padding:0 24px; white-space:nowrap;" onclick="window.bookingFlow.submitActivePayment()">
+            <span id="btnNextStep4Text">Confirmar</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ========================================================================
+       MODAIS DO SISTEMA
+       ======================================================================== -->
+
+  <!-- Modal 1: Cadastro / Edição de Serviços -->
+  <div id="serviceModalBackdrop" class="modal-backdrop">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="serviceModalTitle" class="heading-sm">Cadastrar Novo Serviço</h3>
+        <button class="btn-icon-action" onclick="window.adminManager.closeServiceModal()" aria-label="Fechar">✕</button>
+      </div>
+      <form id="serviceForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="serviceNameInput">Nome do Procedimento *</label>
+            <input type="text" id="serviceNameInput" class="form-input" placeholder="Ex: Blindagem Diamante com Gel" required>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+            <div class="form-group">
+              <label class="form-label" for="serviceCategorySelect">Categoria *</label>
+              <select id="serviceCategorySelect" class="form-select" required>
+                <option value="Mãos">Mãos</option>
+                <option value="Pés">Pés</option>
+                <option value="Combos">Combos</option>
+                <option value="Gel e Alongamento">Gel e Alongamento</option>
+                <option value="Spa e Cuidados">Spa e Cuidados</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="servicePriceInput">Preço (R$) *</label>
+              <input type="number" id="servicePriceInput" class="form-input" step="0.50" min="5" placeholder="50.00" required>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+            <div class="form-group">
+              <label class="form-label" for="serviceDurationSelect">Duração do Atendimento *</label>
+              <select id="serviceDurationSelect" class="form-select" required>
+                <option value="30">30 minutos</option>
+                <option value="45">45 minutos</option>
+                <option value="60">1 hora (60 min)</option>
+                <option value="80">1 hora e 20 min</option>
+                <option value="90">1 hora e 30 min</option>
+                <option value="120">2 horas (120 min)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="serviceImageSelect">Foto Ilustrativa</label>
+              <select id="serviceImageSelect" class="form-select" onchange="window.adminManager.updateServicePhotoPreview()">
+                <option value="assets/manicure.jpg">Esmaltação e Mãos</option>
+                <option value="assets/pedicure.jpg">Spa dos Pés e Cuidados</option>
+                <option value="assets/nailart.jpg">Alongamento e Nail Art</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Prévia e Opção de Foto no Card -->
+          <div class="form-group" id="servicePhotoPreviewGroup">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-size:13px; font-weight:600; color:var(--color-brand-900);">
+                <input type="checkbox" id="serviceHasPhotoCheck" checked onchange="window.adminManager.toggleServicePhotoField()">
+                <span>Exibir foto neste serviço</span>
+              </label>
+              <span style="font-size:11px; color:var(--color-text-500);">Prévia em tempo real</span>
+            </div>
+            <div class="image-preview-box" id="serviceImagePreviewContainer">
+              <img id="serviceImagePreview" src="assets/manicure.jpg" alt="Prévia da foto">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="serviceDescInput">Descrição Detalhada do Serviço</label>
+            <textarea id="serviceDescInput" class="form-textarea" placeholder="Descreva os produtos utilizados, etapas da esmaltação e diferenciais..."></textarea>
+          </div>
+
+          <div class="form-group" style="margin-bottom:0;">
+            <label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-size:14px; font-weight:600;">
+              <input type="checkbox" id="serviceActiveCheck" checked>
+              <span>Serviço Ativo (Visível para as clientes agendarem)</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="window.adminManager.closeServiceModal()">Cancelar</button>
+          <button type="submit" class="btn-primary">Salvar Serviço</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Gerenciamento de Categorias de Serviços (CRUD) -->
+  <div id="categoriesModalBackdrop" class="modal-backdrop">
+    <div class="modal-content" style="max-width: 540px;">
+      <div class="modal-header">
+        <div>
+          <h3 class="heading-sm" style="margin-bottom: 2px;">Categorias de Serviços</h3>
+          <p style="font-size: 12.5px; color: var(--color-text-500); margin: 0;">Cadastre, renomeie ou remova as categorias dos procedimentos.</p>
+        </div>
+        <button class="btn-icon-action" onclick="window.adminManager.closeCategoriesModal()" aria-label="Fechar">✕</button>
+      </div>
+      <div class="modal-body">
+        <!-- Formulário rápido para adicionar nova categoria -->
+        <div style="background: var(--color-surface-50); border: 1px solid var(--color-border-100); border-radius: var(--radius-md); padding: 14px; margin-bottom: 18px;">
+          <label class="form-label" for="newCategoryNameInput" style="font-weight: 700; font-size: 12.5px;">+ Criar Nova Categoria</label>
+          <div style="display: flex; gap: 8px;">
+            <input type="text" id="newCategoryNameInput" class="form-input" placeholder="Ex: Blindagem, Nail Art, Sobrancelha..." style="height: 38px;" onkeydown="if(event.key === 'Enter') { event.preventDefault(); window.adminManager.saveNewCategory(); }">
+            <button type="button" class="btn-primary" style="height: 38px; padding: 0 16px; white-space: nowrap;" onclick="window.adminManager.saveNewCategory()">Adicionar</button>
+          </div>
+        </div>
+
+        <div style="font-size: 13px; font-weight: 700; color: var(--color-brand-900); margin-bottom: 8px;">
+          Categorias Ativas no Sistema
+        </div>
+
+        <!-- Lista dinâmica de categorias com botões de ação -->
+        <div id="categoriesManagerList" style="max-height: 320px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
+          <!-- Renderizado via admin.js -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-primary" onclick="window.adminManager.closeCategoriesModal()">Concluído</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Agendamento Manual pela Manicure -->
+  <div id="manualBookingModalBackdrop" class="modal-backdrop">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="heading-sm">Novo Agendamento Manual</h3>
+        <button class="btn-icon-action" onclick="window.adminManager.closeManualBookingModal()" aria-label="Fechar">✕</button>
+      </div>
+      <form id="manualBookingForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="manualClientName">Nome da Cliente *</label>
+            <input type="text" id="manualClientName" class="form-input" placeholder="Ex: Juliana Santos" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="manualClientPhone">WhatsApp *</label>
+            <input type="tel" id="manualClientPhone" class="form-input" placeholder="(11) 98888-7777" required>
+          </div>
+
+          <!-- Local do Atendimento: No Studio ou Na Casa da Cliente -->
+          <div class="form-group">
+            <label class="form-label" style="font-weight:700;">Local do Atendimento *</label>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+              <label class="payment-method-card" id="lblManualLocStudio" style="margin:0; padding:10px 12px; cursor:pointer; font-size:13px; font-weight:600; display:flex; align-items:center; gap:8px;">
+                <input type="radio" name="manualServiceLocation" id="manualLocationStudio" value="studio" checked onchange="window.adminManager && window.adminManager.toggleManualLocationFields()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="9" y1="6" x2="9" y2="6.01"></line><line x1="15" y1="6" x2="15" y2="6.01"></line><line x1="9" y1="10" x2="9" y2="10.01"></line><line x1="15" y1="10" x2="15" y2="10.01"></line><line x1="9" y1="14" x2="9" y2="14.01"></line><line x1="15" y1="14" x2="15" y2="14.01"></line><line x1="9" y1="18" x2="15" y2="18"></line></svg>
+                <span>No Studio</span>
+              </label>
+              <label class="payment-method-card" id="lblManualLocHome" style="margin:0; padding:10px 12px; cursor:pointer; font-size:13px; font-weight:600; display:flex; align-items:center; gap:8px;">
+                <input type="radio" name="manualServiceLocation" id="manualLocationHome" value="home" onchange="window.adminManager && window.adminManager.toggleManualLocationFields()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                <span>Casa da Cliente</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Campo de Endereço da Cliente (Injetado se for na casa da cliente) -->
+          <div class="form-group" id="manualClientAddressContainer" style="display:none; background:#f0fdf4; border:1.5px solid #86efac; border-radius:var(--radius-md); padding:12px 14px;">
+            <label class="form-label" for="manualClientAddress" style="font-size:13px; font-weight:700; color:#166534; display:flex; align-items:center; gap:6px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              <span>Endereço da Cliente (Rua, Número, Bairro, Apto/Bloco) *</span>
+            </label>
+            <input type="text" id="manualClientAddress" class="form-input" placeholder="Ex: Rua das Palmeiras, 140, Apto 51 - Centro">
+            <span style="font-size:11px; color:#15803d; font-weight:500; display:block; margin-top:4px;">
+              A manicure se deslocará até este endereço no dia e horário agendados.
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="manualBookingServiceSelect">Serviço *</label>
+            <select id="manualBookingServiceSelect" class="form-select" required>
+              <!-- Populado dinamicamente -->
+            </select>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+            <div class="form-group">
+              <label class="form-label" for="manualBookingDate">Data *</label>
+              <input type="date" id="manualBookingDate" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="manualBookingTime">Horário *</label>
+              <input type="time" id="manualBookingTime" class="form-input" required value="10:00">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="manualBookingPaymentStatus">Status do Pagamento</label>
+            <select id="manualBookingPaymentStatus" class="form-select">
+              <option value="PAGO">Pago (Pix ou Dinheiro)</option>
+              <option value="PENDENTE">A Pagar no Local</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label" for="manualBookingNotes">Observações</label>
+            <textarea id="manualBookingNotes" class="form-textarea" placeholder="Notas sobre o atendimento..."></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="window.adminManager.closeManualBookingModal()">Cancelar</button>
+          <button type="submit" class="btn-primary">Confirmar Agendamento</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 3: Detalhes do Agendamento Existente -->
+  <div id="bookingDetailsModalBackdrop" class="modal-backdrop">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="heading-sm">Detalhes do Agendamento</h3>
+        <button class="btn-icon-action" onclick="window.app.closeBookingDetailsModal()" aria-label="Fechar">✕</button>
+      </div>
+      <div class="modal-body" id="bookingDetailsModalBody">
+        <!-- Populado dinamicamente via app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 4: Cadastro e Edição de Clientes (CRUD) -->
+  <div id="clientModalBackdrop" class="modal-backdrop">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="clientModalTitle" class="heading-sm">Cadastrar Nova Cliente</h3>
+        <button class="btn-icon-action" onclick="window.adminManager.closeClientModal()" aria-label="Fechar">✕</button>
+      </div>
+      <form id="clientCrudForm" onsubmit="event.preventDefault(); window.adminManager.saveClient();">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="clientCrudName">Nome Completo da Cliente *</label>
+            <input type="text" id="clientCrudName" class="form-input" placeholder="Ex: Fernanda Silveira" required>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+            <div class="form-group">
+              <label class="form-label" for="clientCrudPhone">WhatsApp / Celular com DDD *</label>
+              <input type="tel" id="clientCrudPhone" class="form-input" placeholder="(11) 98765-4321" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="clientCrudBirthdate">Aniversário (Dia/Mês)</label>
+              <input type="text" id="clientCrudBirthdate" class="form-input" placeholder="Ex: 14/05" maxlength="5">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="clientCrudEmail">E-mail da Cliente</label>
+            <input type="email" id="clientCrudEmail" class="form-input" placeholder="cliente@email.com">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="clientCrudAddress">Endereço Residencial (Para Atendimento a Domicílio)</label>
+            <input type="text" id="clientCrudAddress" class="form-input" placeholder="Ex: Av. Brasil, 500, Apto 32 - Jardins">
+          </div>
+
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label" for="clientCrudNotes">Preferências de Procedimento e Observações</label>
+            <textarea id="clientCrudNotes" class="form-textarea" placeholder="Ex: Prefere cutícula funda, esmaltes hipoalergênicos, formatos amendoados, cores nude ou vermelhas..."></textarea>
+          </div>
+
+          <!-- Bloqueio Individual de Pagamento no Local (Switcher) -->
+          <div class="toggle-switch-card" id="cardBlockLocalPayment">
+            <div class="toggle-switch-info">
+              <div class="toggle-switch-title" style="display:flex; align-items:center; gap:6px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+                <span>Bloquear Pagamento no Local</span>
+              </div>
+              <div class="toggle-switch-desc">
+                Bloqueia individualmente a opção de pagar no studio para esta cliente ao agendar online, obrigando pagamento antecipado (Pix ou Cartão).
+              </div>
+            </div>
+            <label class="switch-control" for="clientCrudBlockLocal" title="Ativar/desativar bloqueio de pagamento no local">
+              <input type="checkbox" id="clientCrudBlockLocal" onchange="window.adminManager.handleBlockLocalSwitchChange(this)">
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="window.adminManager.closeClientModal()">Cancelar</button>
+          <button type="submit" class="btn-primary">Salvar Cliente</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 5: Bloqueio de Horário / Folga na Agenda -->
+  <div id="blockSlotModalBackdrop" class="modal-backdrop">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="blockSlotModalTitle" class="heading-sm" style="display:flex; align-items:center; gap:8px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+          <span>Bloquear Data / Imprevisto</span>
+        </h3>
+        <button class="btn-icon-action" onclick="window.adminManager.closeBlockSlotModal()" aria-label="Fechar">✕</button>
+      </div>
+      <form id="blockSlotForm" onsubmit="event.preventDefault(); window.adminManager.saveBlockSlot();">
+        <div class="modal-body">
+          <p style="font-size:13px; color:var(--color-text-500); margin-bottom:16px;">
+            A data ou horário bloqueado ficará <strong>imediatamente indisponível</strong> para agendamentos online de clientes.
+          </p>
+
+          <div class="form-group">
+            <label class="form-label" for="blockSlotDate">Escolha a Data a Bloquear *</label>
+            <input type="date" id="blockSlotDate" class="form-input" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Tipo de Bloqueio</label>
+            <div style="display:flex; gap:16px; margin-top:6px;">
+              <label style="display:flex; align-items:center; gap:6px; font-size:14px; cursor:pointer;">
+                <input type="radio" name="blockSlotType" value="allday" checked onchange="window.adminManager.toggleBlockSlotType()">
+                <span><strong>Dia Inteiro</strong> (Imprevisto / Não poderei atender)</span>
+              </label>
+              <label style="display:flex; align-items:center; gap:6px; font-size:14px; cursor:pointer;">
+                <input type="radio" name="blockSlotType" value="partial" onchange="window.adminManager.toggleBlockSlotType()">
+                <span>Horário Específico (Faixa de horas)</span>
+              </label>
+            </div>
+          </div>
+
+          <div id="blockPartialTimeGroup" style="display:none; grid-template-columns: 1fr 1fr; gap:16px;">
+            <div class="form-group">
+              <label class="form-label" for="blockSlotStartTime">Início do Bloqueio *</label>
+              <input type="time" id="blockSlotStartTime" class="form-input" value="12:00">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="blockSlotEndTime">Término do Bloqueio *</label>
+              <input type="time" id="blockSlotEndTime" class="form-input" value="13:30">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="blockSlotReason">Motivo do Bloqueio *</label>
+            <select id="blockSlotReason" class="form-select" required>
+              <option value="Imprevisto / Emergência Pessoal" selected>Imprevisto / Emergência Pessoal (Não vou atender)</option>
+              <option value="Problema de Saúde / Consulta">Problema de Saúde / Consulta Médica</option>
+              <option value="Folga / Descanso">Folga / Descanso Programado</option>
+              <option value="Almoço / Intervalo">Almoço / Intervalo de Refeição</option>
+              <option value="Curso / Aperfeiçoamento">Curso / Aperfeiçoamento Técnico</option>
+              <option value="Manutenção do Studio">Manutenção do Studio / Reformas</option>
+              <option value="Outro">Outro Motivo</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label" for="blockSlotNotes">Observação Interna (Opcional)</label>
+            <input type="text" id="blockSlotNotes" class="form-input" placeholder="Ex: Volto às 14h">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="window.adminManager.closeBlockSlotModal()">Cancelar</button>
+          <button type="submit" class="btn-primary" style="background-color:var(--color-error-base); border-color:var(--color-error-base);">Confirmar Bloqueio</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Recuperação de Senha da Manicure -->
+  <div id="forgotPasswordModal" class="modal-backdrop">
+    <div class="modal-content" style="max-width:420px;">
+      <div class="modal-header">
+        <h3 class="heading-sm" style="display:flex; align-items:center; gap:8px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7.5" cy="15.5" r="5.5"></circle><path d="m21 2-9.6 9.6"></path><path d="m15.5 7.5 3 3L22 7l-3-3"></path></svg>
+          <span>Recuperar Acesso</span>
+        </h3>
+        <button class="btn-icon-action" onclick="window.authManager.closeForgotPasswordModal()" aria-label="Fechar">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:13px; color:var(--color-text-700); margin-bottom:16px; line-height:1.5;">
+          Informe seu e-mail ou WhatsApp cadastrado. Enviaremos as instruções para restaurar sua senha de acesso.
+        </p>
+        <div class="form-group">
+          <label class="form-label" for="forgotPasswordInput">E-mail ou WhatsApp *</label>
+          <input type="text" id="forgotPasswordInput" class="form-input" placeholder="Ex: manicure@studio.com ou (11) 98765-4321" value="manicure@studio.com">
+        </div>
+        <div style="background-color:var(--color-surface-50); border:1px solid var(--color-border-100); border-radius:var(--radius-md); padding:12px; font-size:12px; color:var(--color-text-700);">
+          <strong>Acesso de Demonstração:</strong> A senha padrão para teste é <strong>123456</strong>. Você pode fazer login direto com ela.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" onclick="window.authManager.closeForgotPasswordModal()">Cancelar</button>
+        <button type="button" class="btn-primary" onclick="window.authManager.sendPasswordRecovery()">Enviar Instruções</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Container de Toasts e Alerta de Novo Agendamento -->
+  <div id="newBookingAlertToast" class="new-booking-alert-toast"></div>
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Scripts da Aplicação -->
+  <script src="qrcode.min.js"></script>
+  <script src="js/sound.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/calendar.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/booking.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
